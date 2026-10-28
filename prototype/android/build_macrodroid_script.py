@@ -1,10 +1,10 @@
-"""Builds android/macrodroid_pocketnag.js: one self-contained script for MacroDroid's 'JavaScript Code' action."""
+"""Builds android/macrodroid_tapback.js: one self-contained script for MacroDroid's 'JavaScript Code' action."""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__)); P = os.path.dirname(H)
 lib = json.load(open(os.path.join(P, "lines.json")))
 picker = open(os.path.join(P, "picker.js")).read()
-js = f"""// Pocket Nag for MacroDroid. Paste ALL of this into the 'JavaScript Code' action.
-// Engine: JetPack JavascriptEngine (default) or QuickJS. Output Variable: nag_line (String).
+js = f"""// Tapback for MacroDroid. Paste ALL of this into the 'JavaScript Code' action.
+// Engine: JetPack JavascriptEngine (default) or QuickJS. Output Variable: tb_line (String).
 var module = {{ exports: {{}} }};
 {picker}
 var PN = module.exports;
@@ -22,5 +22,5 @@ var r = PN.recordVisit(log, merchant, Date.now(), LIB);
 globals.set("pn_log", r.log);
 mdOutput(PN.pick(LIB, merchant, amount, r.count).text);
 """
-open(os.path.join(H, "macrodroid_pocketnag.js"), "w").write(js)
+open(os.path.join(H, "macrodroid_tapback.js"), "w").write(js)
 print("wrote", len(js), "bytes")

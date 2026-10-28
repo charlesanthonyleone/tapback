@@ -1,7 +1,7 @@
-// Pocket Nag for MacroDroid. Paste ALL of this into the 'JavaScript Code' action.
-// Engine: JetPack JavascriptEngine (default) or QuickJS. Output Variable: nag_line (String).
+// Tapback for MacroDroid. Paste ALL of this into the 'JavaScript Code' action.
+// Engine: JetPack JavascriptEngine (default) or QuickJS. Output Variable: tb_line (String).
 var module = { exports: {} };
-/* Pocket Nag line picker. Works in the browser (window.PocketNag), Node (require) and MacroDroid's JavaScript Code action. */
+/* Tapback line picker. Works in the browser (window.Tapback), Node (require) and MacroDroid's JavaScript Code action. */
 (function (root) {
   function ordinal(n) { var s = ["TH", "ST", "ND", "RD"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
   function norm(s) { return String(s || "").toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9&.\- ]/g, " ").replace(/\s+/g, " ").trim(); }
@@ -45,7 +45,7 @@ var module = { exports: {} };
     return { category: cat, count: count, text: line.split("{count}").join(ordinal(count)).split("{merchant}").join(display).split("{amount}").join(money) };
   }
   var api = { ordinal: ordinal, displayName: displayName, visitKey: visitKey, categorize: categorize, recordVisit: recordVisit, pick: pick, norm: norm };
-  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.PocketNag = api;
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.Tapback = api;
 })(typeof window !== "undefined" ? window : this);
 
 var PN = module.exports;

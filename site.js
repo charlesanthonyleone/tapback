@@ -1,5 +1,5 @@
-// Pocket Nag: shared site behaviour (config, nav, reveals, waitlist, page transitions)
-const CONFIG = { BRAND: "Pocket Nag", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET: 250 };
+// Tapback: shared site behaviour (config, nav, reveals, waitlist, page transitions)
+const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET: 250 };
 (() => {
   const $ = s => document.querySelector(s);
   document.querySelectorAll("[data-founder]").forEach(el => (el.textContent = CONFIG.FOUNDER));
@@ -22,7 +22,7 @@ const CONFIG = { BRAND: "Pocket Nag", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUD
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
   // Waitlist forms (front-end only, localStorage)
-  const KEY = "pocketnag_waitlist";
+  const KEY = "tapback_waitlist";
   document.querySelectorAll("form.waitlist").forEach(f => f.addEventListener("submit", e => {
     e.preventDefault();
     const inp = f.querySelector("input[type=email]"), msg = f.parentElement.querySelector(".wl-msg");

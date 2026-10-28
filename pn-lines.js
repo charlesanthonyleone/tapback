@@ -1,4 +1,4 @@
-window.PocketNagLines = {
+window.TapbackLines = {
  "meta": {
   "version": 1,
   "placeholders": [

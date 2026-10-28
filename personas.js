@@ -1,4 +1,4 @@
-// Pocket Nag personalities (shared by app.html and demo.html)
+// Tapback personalities (shared by app.html and demo.html)
 window.PERSONAS = {
   coach: { label: "Gentle Coach", emoji: "🌱", desc: "Kind and encouraging, and it still keeps you honest.", pitch: 1.0,
     lines: {

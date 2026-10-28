@@ -1,4 +1,4 @@
-# Pocket Nag for Android: MacroDroid build guide
+# Tapback for Android: MacroDroid build guide
 
 ## The honest answer on "real tap triggers"
 I checked whether an Android app can react to the tap itself, and it can't:
@@ -12,15 +12,15 @@ I checked whether an Android app can react to the tap itself, and it can't:
 ## MacroDroid setup (free tier: up to 5 macros, this uses 1)
 1. Install **MacroDroid** from the Play Store. Open it and allow **Notification access** when asked (Settings → Notifications → Device & app notifications → Notification access → MacroDroid).
 2. In **Google Wallet** → profile picture → **Notifications** (or Android Settings → Apps → Google Wallet → Notifications), make sure **Transactions** notifications are **on**.
-3. MacroDroid → **Add Macro**. Name it **Pocket Nag**.
+3. MacroDroid → **Add Macro**. Name it **Tapback**.
 4. **Trigger** → **Notification** → **Notification Received** → **Select Applications** → tick **Google Wallet** (also tick **Google Play services** for older setups) → Text filter **Contains** `$`. Turn on **Ignore ongoing/persistent notifications** and leave **Prevent multiple triggers** on.
 5. **Action** → **Volume** → **Volume Change** → **Media** (if Speak Text uses another stream on your phone, also set **Notification**) → **85%**.
 6. **Action** → **Device Actions**/**Scripting** → **JavaScript Code**:
-   - Paste all of `android/macrodroid_pocketnag.js`.
+   - Paste all of `android/macrodroid_tapback.js`.
    - Engine: **JetPack JavascriptEngine** (the default).
-   - **Output Variable**: create a new **String** variable `nag_line`.
+   - **Output Variable**: create a new **String** variable `tb_line`.
    - Leave **Block next action until complete** on.
-7. **Action** → **Speak Text** → text `{lv=nag_line}`. If you made it a global variable, use `{v=nag_line}` instead (the variable picker inserts the right one). Turn **Wait to finish** off. Optionally set the speech rate a bit faster.
+7. **Action** → **Speak Text** → text `{lv=tb_line}`. If you made it a global variable, use `{v=tb_line}` instead (the variable picker inserts the right one). Turn **Wait to finish** off. Optionally set the speech rate a bit faster.
 8. Save (✓). Make sure the macro is enabled.
 9. **Test without paying:** MacroDroid → the macro → **⋮ → Test actions**. With no real notification the merchant will be empty, so you'll hear a generic line. A real test needs a real tap.
 
@@ -30,7 +30,7 @@ The script keeps the 7-day visit log inside MacroDroid's JavaScript `globals` st
 The script assumes **title = merchant name** and **text contains `$12.34`**. Lines 6–9 at the bottom of the script are the only parsing; adjust them after seeing a real notification. A quick way to see what MacroDroid receives: temporarily add **Display Notification** with `{not_title} || {notification}`.
 
 ### Tasker alternative (paid, around $3.49)
-Use the **Event → UI → Notification** (owner: Google Wallet) profile, then a **JavaScriptlet** with the same script. Swap `magicText.evaluateString(...)` for Tasker's `%evtprm2`/`%evtprm3` (title/text) and `mdOutput()` for `setLocal('nag', ...)`, then **Say** `%nag`. This variant is untested.
+Use the **Event → UI → Notification** (owner: Google Wallet) profile, then a **JavaScriptlet** with the same script. Swap `magicText.evaluateString(...)` for Tasker's `%evtprm2`/`%evtprm3` (title/text) and `mdOutput()` for `setLocal('tb', ...)`, then **Say** `%tb`. This variant is untested.
 
 ## Sources
 - Android Developers, Host-based card emulation overview (payment category, default wallet role, AID routing): https://developer.android.com/develop/connectivity/nfc/hce

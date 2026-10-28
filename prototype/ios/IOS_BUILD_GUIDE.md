@@ -1,4 +1,4 @@
-# Pocket Nag for iPhone: Shortcuts build guide (for Charles)
+# Tapback for iPhone: Shortcuts build guide (for Charles)
 
 **Goal:** you tap your iPhone to pay, and the phone immediately says a funny line out loud at the register.
 **Needs:** iOS 17 or later and a card in Apple Wallet. It runs entirely on the phone, with no app, no server and no internet connection.
@@ -7,12 +7,12 @@
 > **iOS 26 renamed a few things:** the trigger is called **Wallet** instead of **Transaction**, and "New Blank Automation" is now **Create New Shortcut**.
 
 ## How it's built (two pieces, so it can be shared)
-1. **A shortcut called "Pocket Nag"** holds all the logic and the joke library. You can share this one as an iCloud link.
-2. **A Transaction automation** on each phone. It's two actions that pass the merchant and amount to "Pocket Nag". Apple does **not** include automations in shared links, so each person sets this part up themselves (about 1 minute).
+1. **A shortcut called "Tapback"** holds all the logic and the joke library. You can share this one as an iCloud link.
+2. **A Transaction automation** on each phone. It's two actions that pass the merchant and amount to "Tapback". Apple does **not** include automations in shared links, so each person sets this part up themselves (about 1 minute).
 
 ---
-## Part A: build the "Pocket Nag" shortcut
-Open **Shortcuts** → **Shortcuts** tab → **+**. Rename it **Pocket Nag**. Add these actions in order. Use the search bar at the bottom, and type the names exactly as written.
+## Part A: build the "Tapback" shortcut
+Open **Shortcuts** → **Shortcuts** tab → **+**. Rename it **Tapback**. Add these actions in order. Use the search bar at the bottom, and type the names exactly as written.
 
 **1. Read the input, or use test data when there isn't any**
 1. **If**: set it to *Shortcut Input* · **does not have any value**.
@@ -30,14 +30,14 @@ Open **Shortcuts** → **Shortcuts** tab → **+**. Rename it **Pocket Nag**. Ad
 **3. Log this visit, then count visits in the last 7 days**
 10. **Format Date**: *Current Date*, Date Format **Custom**, `yyyy-MM-dd`. → **Set Variable** `Today`.
 11. **Text**: `Today|Key` (insert the two variables with a `|` between them).
-12. **Append to Text File**: append *Text* to path `PocketNag/visits.txt` in the **Shortcuts** folder of iCloud Drive. Turn **Make New Line** on. The file is created on the first run (untested; if it errors, create an empty `visits.txt` in Files → iCloud Drive → Shortcuts → PocketNag).
+12. **Append to Text File**: append *Text* to path `Tapback/visits.txt` in the **Shortcuts** folder of iCloud Drive. Turn **Make New Line** on. The file is created on the first run (untested; if it errors, create an empty `visits.txt` in Files → iCloud Drive → Shortcuts → Tapback).
 13. **Adjust Date**: **Add** `1` **days** to *Current Date*. → **Set Variable** `Tomorrow`.
 14. **Repeat** `7` times:
     - **Adjust Date**: **Subtract** *Repeat Index* **days** from `Tomorrow`.
     - **Format Date**: *Adjusted Date*, Custom `yyyy-MM-dd`.
 15. **End Repeat**. The Repeat's output is a list of the last 7 dates.
 16. **Combine Text**: *Repeat Results*, separator **Custom** `|`. → **Set Variable** `Days`.
-17. **Get File from Folder**: folder **Shortcuts**, path `PocketNag/visits.txt`, Error If Not Found **off**.
+17. **Get File from Folder**: folder **Shortcuts**, path `Tapback/visits.txt`, Error If Not Found **off**.
 18. **Match Text**: pattern `(Days)\|Key$` (type `(`, insert `Days`, type `)\|`, insert `Key`, type `$`) in *File*. Turn **Case Sensitive** off. Because `$` needs "multiline" mode, put `(?m)` at the very start of the pattern: `(?m)(Days)\|Key$`.
 19. **Count**: **Items** in *Matches*. → **Set Variable** `Visits`.
 
@@ -82,11 +82,11 @@ Tap **Done**. **Test it:** tap ▶︎ in the editor. With no input it uses the M
 4. Choose **Run Immediately**. Turn **Notify When Run** **off**.
 5. **Next** → **New Blank Automation** (iOS 26: **Create New Shortcut**).
 6. Add **Dictionary**: add item `merchant` (Text) → tap the value field → **Select Variable** → *Shortcut Input* → tap the *Shortcut Input* chip → choose **Merchant**. Add `amount` the same way → **Amount**.
-7. Add **Run Shortcut**: choose **Pocket Nag**, then tap the arrow and set **Input** to *Dictionary*. Turn **Show While Running** off.
+7. Add **Run Shortcut**: choose **Tapback**, then tap the arrow and set **Input** to *Dictionary*. Turn **Show While Running** off.
 8. **Done**.
 
 ## Sharing with Mom
-- **Pocket Nag (Part A)**: open it → share button → **Copy iCloud Link** (Apple: "Share shortcuts on iPhone or iPad"). She taps the link → **Add Shortcut**. The signing is handled by Apple's iCloud sharing; nothing to do on our side. If sharing is blocked, turn on **Settings → Apps → Shortcuts → Private Sharing** / **Allow Untrusted Shortcuts** (the label varies by iOS version).
+- **Tapback (Part A)**: open it → share button → **Copy iCloud Link** (Apple: "Share shortcuts on iPhone or iPad"). She taps the link → **Add Shortcut**. The signing is handled by Apple's iCloud sharing; nothing to do on our side. If sharing is blocked, turn on **Settings → Apps → Shortcuts → Private Sharing** / **Allow Untrusted Shortcuts** (the label varies by iOS version).
 - **The automation (Part B)** cannot be shared. She does Part B herself; it's in SETUP_GUIDE.
 - A `.shortcut` file can't be made on this Linux box. It has to be exported or signed on an Apple device, either through iCloud link sharing or `shortcuts sign --mode anyone` on a Mac. So: you build it once on your iPhone and send the iCloud link.
 

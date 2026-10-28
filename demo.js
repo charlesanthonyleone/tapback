@@ -1,10 +1,10 @@
-// Pocket Nag interactive playground
+// Tapback interactive playground
 (() => {
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-  const P = window.PERSONAS, LIB = window.PocketNagLines, PN = window.PocketNag, synth = window.speechSynthesis;
+  const P = window.PERSONAS, LIB = window.TapbackLines, PN = window.Tapback, synth = window.speechSynthesis;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fmt = n => "$" + n.toFixed(2);
-  const KEY = "pocketnag_visits";
+  const KEY = "tapback_visits";
   const st = { persona: new URLSearchParams(location.search).get("persona") || "sassy", rate: 1, vol: 1, sound: true, voice: "", busy: false };
   if (!P[st.persona]) st.persona = "sassy";
   let data = load();

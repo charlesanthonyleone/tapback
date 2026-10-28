@@ -1,4 +1,4 @@
-// Pocket Nag: visual effects (tilt, particles, editions, talk animation). Respects reduced motion.
+// Tapback: visual effects (tilt, particles, editions, talk animation). Respects reduced motion.
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = s => document.querySelector(s);

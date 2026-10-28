@@ -1,4 +1,4 @@
-"""Pocket Nag picker (Python port). Usage: python3 picker.py "MCDONALD'S #123" 8.49"""
+"""Tapback picker (Python port). Usage: python3 picker.py "MCDONALD'S #123" 8.49"""
 import json, random, re, sys, time, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 def ordinal(n):
