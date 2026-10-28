@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pocket Nag: Setup Guide</title>
+<style>
+body{font:18px/1.6 -apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:0 auto;padding:28px;color:#1d1b26}
+h1{font-size:34px;margin:0}h2{margin-top:40px;padding:10px 14px;background:#f3edff;border-radius:10px;font-size:24px}
+h3{font-size:20px;margin-top:26px}ol li,ul li{margin:8px 0}b{color:#4b2bb3}
+.tip{background:#fff8e1;border-left:5px solid #f5b300;padding:12px 16px;border-radius:6px;margin:16px 0}
+.note{background:#eef7ff;border-left:5px solid #2b7bd6;padding:12px 16px;border-radius:6px}
+code{background:#f1f1f4;padding:1px 6px;border-radius:4px;font-size:16px}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px 10px;text-align:left;vertical-align:top}th{background:#faf8ff}
+@media print{h2{break-before:page}h2:first-of-type{break-before:auto}body{font-size:15px}}
+</style></head><body>
+<h1>👛 Pocket Nag</h1>
+<p style="font-size:20px;margin-top:4px"><i>Your wallet finally has something to say.</i></p>
+<p>When you pay with your phone, it says something funny out loud, like <i>"Back at Starbucks? Third time this week!"</i>. It's all in good fun, and the jokes are never mean.</p>
+<p>Setup takes about <b>5 minutes</b>. Find your phone type below and follow the numbered steps. If something doesn't match exactly, don't worry: Charles can help over the phone.</p>
+<div class="note"><b>Which phone do I have?</b> If there's an apple logo on the back, it's an <b>iPhone</b> → Part 1. Otherwise (Samsung, Google Pixel, Motorola…) it's <b>Android</b> → Part 2.</div>
+
+<h2>Part 1 · iPhone</h2>
+<p>You need: an iPhone with your card in <b>Apple Wallet</b> (the one you use to pay by tapping), and the link Charles texted you.</p>
+<h3>Step A: Add the Pocket Nag shortcut</h3>
+<ol>
+<li>Open the <b>link Charles sent</b> (it starts with <code>icloud.com/shortcuts</code>).</li>
+<li>The <b>Shortcuts</b> app opens. Tap <b>Add Shortcut</b>.</li>
+<li>To try it, open <b>Shortcuts</b> (white and pink-blue icon), find <b>Pocket Nag</b> and tap it once. Your phone should say a joke about McDonald's. 🎉</li>
+</ol>
+<h3>Step B: Make it run when you pay</h3>
+<ol>
+<li>In <b>Shortcuts</b>, tap <b>Automation</b> at the bottom of the screen.</li>
+<li>Tap <b>+</b> (top right) or <b>New Automation</b>.</li>
+<li>Scroll down and tap <b>Transaction</b>. On newer phones it's called <b>Wallet</b>.</li>
+<li>Make sure your card is <b>checked</b>. Leave everything else as it is.</li>
+<li>Tap <b>Run Immediately</b>. Then turn the <b>Notify When Run</b> switch <b>off</b> (it turns grey).</li>
+<li>Tap <b>Next</b>, then <b>New Blank Automation</b> (or <b>Create New Shortcut</b>).</li>
+<li>Tap <b>Add Action</b>, type <b>Dictionary</b> in the search box and tap it.</li>
+<li>Tap <b>Add new item</b> → <b>Text</b>. In the left box type <code>merchant</code>. Tap the right box, then tap <b>Shortcut Input</b> in the bar above the keyboard. Tap the blue <b>Shortcut Input</b> word and choose <b>Merchant</b>.</li>
+<li>Do the same again: <b>Add new item</b> → <b>Text</b>, type <code>amount</code> on the left, choose <b>Shortcut Input</b> → <b>Amount</b> on the right.</li>
+<li>Tap the search box at the bottom, type <b>Run Shortcut</b> and tap it. Tap the blue word <b>Shortcut</b> and choose <b>Pocket Nag</b>.</li>
+<li>Tap <b>Done</b>. That's it! Next time you tap to pay, listen. 🔊</li>
+</ol>
+
+<h2>Part 2 · Android</h2>
+<p>You need: <b>Google Wallet</b> set up for tap-to-pay, and the free app <b>MacroDroid</b>.</p>
+<div class="tip"><b>Good to know:</b> Android phones can't hear the tap itself. Pocket Nag listens for Google Wallet's "you just paid" message instead, so the joke may come a little <b>after</b> you pay, not at the exact moment.</div>
+<ol>
+<li>Open the <b>Play Store</b>, search for <b>MacroDroid</b> and tap <b>Install</b>.</li>
+<li>Open MacroDroid. When it asks for <b>Notification access</b>, tap <b>Allow</b>, find <b>MacroDroid</b> in the list and switch it <b>on</b>.</li>
+<li>Open <b>Google Wallet</b> → tap your <b>picture</b> (top right) → <b>Notifications</b> → make sure <b>Transactions</b> is <b>on</b>.</li>
+<li>Charles will send you the Pocket Nag macro, or set it up with you. It takes him about 3 minutes.</li>
+<li>In MacroDroid, make sure the <b>Pocket Nag</b> switch is <b>on</b> (green).</li>
+<li>Pay for something small with your phone and listen. 🔊</li>
+</ol>
+
+<h2>If it doesn't talk: troubleshooting</h2>
+<table>
+<tr><th>Problem</th><th>Try this</th></tr>
+<tr><td>iPhone: a box pops up asking "Run?"</td><td>Shortcuts → Automation → tap the automation → choose <b>Run Immediately</b>.</td></tr>
+<tr><td>iPhone: you see a banner but hear nothing</td><td>Turn <b>Notify When Run</b> off (same screen as above). Then check the volume below.</td></tr>
+<tr><td>No sound at all</td><td>Press the <b>volume-up</b> button on the side while nothing is playing. The shortcut also turns the volume up itself.</td></tr>
+<tr><td>iPhone silent switch / Silent mode</td><td>If the little switch on the side shows <b>orange</b>, or Silent mode is on (iPhone 15 and later: Action button), spoken words may be muted. Flip it back to ring.</td></tr>
+<tr><td>Android: silent or Do Not Disturb</td><td>Swipe down from the top of the screen and turn <b>Do Not Disturb</b> off. Turn the <b>media</b> volume up.</td></tr>
+<tr><td>Android: nothing happens</td><td>Settings → Notifications → <b>Notification access</b> → MacroDroid <b>on</b>. In MacroDroid, check that the macro is <b>on</b>. Some phones need <b>Battery → Unrestricted</b> for MacroDroid.</td></tr>
+<tr><td>It says the wrong store name</td><td>That's normal sometimes. The store's official name can look strange (like "SQ *JOE'S CAFE").</td></tr>
+<tr><td>Jokes about paying with a plastic card?</td><td>It only works when you pay with your <b>phone</b>, not a physical card.</td></tr>
+<tr><td>Want it to stop</td><td>iPhone: Shortcuts → Automation → swipe left on it → Delete. Android: switch the macro off in MacroDroid.</td></tr>
+</table>
+<p style="margin-top:30px;color:#666">Pocket Nag never sees your bank login. Everything stays on your phone. 💜</p>
+</body></html>
