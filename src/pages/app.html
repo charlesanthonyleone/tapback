@@ -1,0 +1,77 @@
+<!--
+title: The App · Pocket Nag
+desc: How Pocket Nag works on iPhone and Android, the escalation ladder, and the five personalities.
+nav: app
+scripts: personas.js
+-->
+
+<section class="page-hero">
+  <div class="wrap page-hero-grid">
+    <div class="reveal">
+      <p class="eyebrow">The App</p>
+      <h1>A voice for <span class="grad">every purchase.</span></h1>
+      <p class="lead">Pocket Nag listens for the purchase alerts your bank already sends, then says one short line about what you just bought. It counts your visits too, so the fourth McDonald's of the week sounds very different from the first.</p>
+      <div class="hero-ctas"><a class="btn" href="demo.html">Try the live demo</a><a class="btn btn-ghost" href="prototype/SETUP_GUIDE.pdf">Setup guide (PDF)</a></div>
+    </div>
+    <div class="reveal page-hero-art"><img src="assets/iphone-nag.webp" width="768" height="1024" alt="An iPhone lock screen with a Pocket Nag notification: DAMN, FOR THE 4TH TIME THIS WEEK?!" class="float"></div>
+  </div>
+</section>
+<section id="how" class="section">
+  <div class="wrap">
+    <p class="eyebrow center">How it works</p>
+    <h2 class="center">Three steps. No bank login, ever.</h2>
+    <ol class="steps">
+      <li class="card reveal"><span class="num">1</span><h3>You tap or pay</h3><p>Pay the way you always do. You don't need a new card or a new bank account.</p></li>
+      <li class="card reveal"><span class="num">2</span><h3>Your bank's alert tells it</h3><p>Your bank already sends a transaction alert for each purchase, and that's how it hears about it. You never connect your bank or share a bank login.</p></li>
+      <li class="card reveal"><span class="num">3</span><h3>It nags (nicely)</h3><p>It says a short line about the purchase, in the personality you picked.</p></li>
+    </ol>
+    <div class="platforms">
+      <div class="card reveal"><h3>🤖 Android</h3><p>It reads the purchase notifications your bank app already shows you.</p></div>
+      <div class="card reveal"><h3>🍎 iPhone</h3><p>Apple Pay taps trigger it instantly. Other purchases come in through your bank's email alerts.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">It escalates</p>
+    <h2 class="center">The more you go back, the louder it gets.</h2>
+    <ol class="ladder">
+      <li class="reveal"><b>1st visit</b><span>“A McDonald's run? Bold. Respect.”</span></li>
+      <li class="reveal"><b>2nd visit</b><span>A raised eyebrow.</span></li>
+      <li class="reveal"><b>3rd visit</b><span>“THIRD time at McDonald's this week?! Are you collecting the toys?”</span></li>
+      <li class="reveal hot"><b>4th visit+</b><span>“DAMN, FOR THE 4TH TIME THIS WEEK?! EAT SOMETHING HEALTHY FOR ONCE!”</span></li>
+    </ol>
+    <p class="center fine">Counts reset every week. Lines come from a library of 160 written for 8 spending categories.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">Personalities</p>
+    <h2 class="center">Pick who's talking.</h2>
+    <p class="center sub">Five moods. Switch any time. Click one to hear it in the demo.</p>
+    <div id="persona-cards" class="personas"></div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">Set it up today</p>
+    <h2 class="center">Working prototype on your own phone.</h2>
+    <div class="platforms">
+      <div class="card reveal"><h3>🍎 iPhone</h3><ol class="mini"><li>Build one Shortcut that picks a line and speaks it.</li><li>Add a Wallet automation so every Apple Pay tap runs it.</li><li>Optional: let bank email alerts trigger it for other purchases.</li></ol><p class="fine">About 20 minutes with the guide.</p></div>
+      <div class="card reveal"><h3>🤖 Android</h3><ol class="mini"><li>Install an automation app (MacroDroid).</li><li>Import the Pocket Nag script.</li><li>Point it at your bank app's notifications.</li></ol><p class="fine">About 15 minutes with the guide.</p></div>
+    </div>
+    <p class="center"><a class="btn" href="prototype/SETUP_GUIDE.pdf">Download the step-by-step setup guide (PDF)</a></p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="privacy-strip reveal">
+      <div><b>🔒 No bank login</b><span>It only sees alerts you already get.</span></div>
+      <div><b>🙈 No ads</b><span>Not now, not later.</span></div>
+      <div><b>🧾 Only the basics</b><span>Store, amount, time. That's it.</span></div>
+      <div><b>🤫 Off switch</b><span>Silent mode and quiet hours.</span></div>
+    </div>
+  </div>
+</section>

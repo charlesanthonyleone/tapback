@@ -3,20 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pocket Nag: Your wallet finally has something to say</title>
-<meta name="description" content="A money-awareness companion that speaks up when you spend.">
+<title>Pocket Nag: your wallet finally has something to say</title>
+<meta name="description" content="Pocket Nag notices every purchase and says something about it, in the voice you pick. No bank login needed.">
+<meta name="theme-color" content="#0a0614">
+<link rel="icon" href="assets/favicon.png" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Pocket Nag"><meta property="og:title" content="Pocket Nag: your wallet finally has something to say">
+<meta property="og:description" content="Pocket Nag notices every purchase and says something about it, in the voice you pick. No bank login needed.">
+<meta property="og:image" content="https://charlesanthonyleone.github.io/pocketnag/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://charlesanthonyleone.github.io/pocketnag/"><meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="nav" id="top">
+<header class="nav">
   <div class="wrap nav-in">
-    <a href="#top" class="logo"><span class="logo-dot" aria-hidden="true"></span><span data-brand>Pocket Nag</span></a>
-    <nav aria-label="Primary"><a href="#how">How it works</a><a href="#demo">Demo</a><a href="#personalities">Personalities</a><a href="#glass">Glass Card</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav>
-    <a href="#waitlist" class="btn btn-sm">Join the waitlist</a>
+    <a href="index.html" class="logo"><img src="assets/logo.webp" alt="" width="30" height="30" class="logo-img"><span>Pocket Nag</span></a>
+    <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="site-menu"><span class="sr">Menu</span><i></i><i></i><i></i></button>
+    <nav id="site-menu" aria-label="Primary"><a href="index.html" aria-current="page">Home</a><a href="app.html">The App</a><a href="demo.html">Demo</a><a href="glass-card.html">Glass Card</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="demo.html" class="btn btn-sm nav-cta">Try the demo</a></nav>
   </div>
 </header>
-
 <main id="main">
 <section class="hero">
   <div class="wrap hero-grid">
@@ -24,172 +29,113 @@
       <p class="eyebrow">Playfully honest about money</p>
       <h1>Your wallet finally has<br><span class="grad">something to say.</span></h1>
       <p class="lead"><span data-brand>Pocket Nag</span> notices every purchase and says something about it, in the voice you pick. It can be encouraging, sassy, strict or lovingly disappointed. You'll hear about every coffee. No bank login needed.</p>
-      <form id="waitlist" class="waitlist" novalidate>
-        <label for="email" class="sr">Email address</label>
-        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+      <form class="waitlist" novalidate>
+        <label for="h-email" class="sr">Email address</label>
+        <input id="h-email" type="email" placeholder="you@example.com" autocomplete="email" required>
         <button class="btn" type="submit">Join the waitlist</button>
       </form>
-      <p id="wl-msg" class="wl-msg" role="status" aria-live="polite"></p>
+      <p class="wl-msg" role="status" aria-live="polite"></p>
+      <div class="hero-ctas"><a class="btn btn-ghost" href="demo.html">▶ Hear it nag</a><a class="link-arrow" href="glass-card.html">See the Glass Card →</a></div>
       <p class="fine">Demo only. Your email is saved in your own browser and never sent anywhere.</p>
     </div>
     <div class="hero-visual reveal">
-      <img src="assets/stock-phone-pay.jpg" alt="A customer paying at a counter by tapping her phone" class="hero-photo">
+      <canvas id="particles" aria-hidden="true"></canvas>
+      <div class="tilt-stage">
+        <div class="tilt" id="tilt">
+          <img src="assets/card-hero.webp" width="1024" height="576" alt="Concept render of the Pocket Nag Glass Card: clear glass with a holographic edge and a glowing screen showing stacked cards and a voice bubble" class="tilt-img" fetchpriority="high">
+          <span class="sheen" aria-hidden="true"></span>
+        </div>
+      </div>
       <div class="float-note" aria-hidden="true">
         <div class="fn-icon">💬</div>
-        <div><strong>Starbucks · $6.45</strong><span>“Man, AGAIN? Third coffee this week.”</span></div>
+        <div><strong>McDonald's · $11.38</strong><span>“DAMN, FOR THE 4TH TIME THIS WEEK?! EAT SOMETHING HEALTHY FOR ONCE!”</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="how" class="section">
+<section class="stats" aria-label="Pocket Nag at a glance">
+  <div class="wrap stat-row">
+    <div class="stat reveal"><b data-count="160">160</b><span>roasts in the built-in library</span></div>
+    <div class="stat reveal"><b data-count="5">5</b><span>personalities to choose from</span></div>
+    <div class="stat reveal"><b data-count="8">8</b><span>spending categories it recognises</span></div>
+    <div class="stat reveal"><b>$0</b><span>to start: free forever plan</span></div>
+    <div class="stat reveal"><b data-count="0">0</b><span>bank logins needed</span></div>
+  </div>
+</section>
+
+
+<section class="section">
   <div class="wrap">
-    <p class="eyebrow center">How it works</p>
-    <h2 class="center">Three steps. No bank login, ever.</h2>
-    <ol class="steps">
-      <li class="card reveal"><span class="num">1</span><h3>You tap or pay</h3><p>Pay the way you always do. You don't need a new card or a new bank account.</p></li>
-      <li class="card reveal"><span class="num">2</span><h3>Your bank's alert tells it</h3><p>Your bank already sends a transaction alert for each purchase, and that's how it hears about it. You never connect your bank or share a bank login.</p></li>
-      <li class="card reveal"><span class="num">3</span><h3>It nags (nicely)</h3><p>It says a short line about the purchase, in the personality you picked.</p></li>
-    </ol>
-    <div class="platforms">
-      <div class="card reveal"><h3>🤖 Android</h3><p>It reads the purchase notifications your bank app already shows you.</p></div>
-      <div class="card reveal"><h3>🍎 iPhone</h3><p>Apple Pay taps trigger it instantly. Other purchases come in through your bank's email alerts.</p></div>
+    <p class="eyebrow center">The idea</p>
+    <h2 class="center">Budgeting apps show you a chart.<br><span class="grad">Pocket Nag talks to you.</span></h2>
+    <div class="trio">
+      <a class="card tile reveal" href="app.html"><img src="assets/iphone-nag.webp" loading="lazy" width="768" height="1024" alt="iPhone lock screen with a Pocket Nag notification"><div><h3>The App</h3><p>A voice that comments on every purchase, the moment it happens.</p><span class="try">How it works →</span></div></a>
+      <a class="card tile reveal" href="demo.html"><img src="assets/card-macro.webp" loading="lazy" width="1024" height="576" alt="Close-up of the card screen with a voice bubble"><div><h3>The Demo</h3><p>Tap a pretend phone on a pretend terminal and hear it for yourself.</p><span class="try">Play with it →</span></div></a>
+      <a class="card tile reveal" href="glass-card.html"><img src="assets/card-exploded.webp" loading="lazy" width="1024" height="576" alt="Exploded view of the Glass Card"><div><h3>The Glass Card</h3><p>Every card you own in one piece of glass that unlocks in one tap.</p><span class="try">Coming soon →</span></div></a>
     </div>
   </div>
 </section>
-
-<section id="demo" class="section demo-sec">
+<section id="roasts" class="section">
   <div class="wrap">
-    <p class="eyebrow center">Live demo</p>
-    <h2 class="center">Try it. Turn your sound on.</h2>
-    <p class="center sub">Simulate a purchase and hear what <span data-brand>Pocket Nag</span> has to say. It runs entirely in your browser.</p>
-    <div class="demo-grid">
-      <div class="controls card">
-        <fieldset>
-          <legend>Personality</legend>
-          <div class="chips" id="persona-chips" role="radiogroup" aria-label="Personality"></div>
-        </fieldset>
-        <label for="voice">Voice</label>
-        <select id="voice"><option value="">Default voice</option></select>
-        <label for="rate">Speed <output id="rate-out">1.0×</output></label>
-        <input id="rate" type="range" min="0.6" max="1.6" step="0.1" value="1">
-        <div class="toggle-row">
-          <span id="sound-label">Speak out loud</span>
-          <button id="sound" class="switch" role="switch" aria-checked="true" aria-labelledby="sound-label"><span></span></button>
-        </div>
-        <button id="simulate" class="btn btn-lg">Simulate a purchase</button>
-        <p class="fine" id="speech-support"></p>
-      </div>
-
-      <div class="phone-wrap">
-        <div class="phone" aria-label="Phone mockup showing transactions">
-          <div class="notch" aria-hidden="true"></div>
-          <div class="status" aria-hidden="true"><span>9:41</span><span>●●● ▮</span></div>
-          <div id="notif" class="notif" role="status" aria-live="polite" hidden>
-            <div class="n-app"><span class="n-ico" aria-hidden="true"></span><span data-brand>Pocket Nag</span><span class="n-time">now</span></div>
-            <div class="n-title" id="notif-title"></div>
-            <div class="n-body" id="notif-body"></div>
-          </div>
-          <div class="screen">
-            <div class="balance"><span>This week</span><strong id="phone-week">$0.00</strong></div>
-            <h4>Recent</h4>
-            <ul id="feed" class="feed"><li class="empty">No purchases yet. Tap “Simulate a purchase”.</li></ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="widget-col">
-        <p class="eyebrow">Home-screen widget</p>
-        <div class="homescreen" aria-label="Home screen widget mockup">
-          <div class="widget">
-            <div class="w-head"><span class="n-ico" aria-hidden="true"></span><span data-brand>Pocket Nag</span></div>
-            <div class="w-label">This week</div>
-            <div class="w-amt" id="w-week">$0.00</div>
-            <div class="w-bar"><span id="w-bar"></span></div>
-            <div class="w-quote" id="w-quote">“Quiet week so far. I like it.”</div>
-          </div>
-          <div class="apps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
-        <p class="fine">Weekly budget in the demo: $250.</p>
-      </div>
+    <p class="eyebrow center">What it might say to you</p>
+    <h2 class="center">Kind roasts. Never cruel.</h2>
+    <p class="center sub">These are real lines from the library. It escalates the more you visit the same place in a week.</p>
+    <div class="roasts">
+      <figure class="roast card reveal"><span class="r-tag">🍟 McDonald's · 1st visit</span><blockquote>“A McDonald's run? Bold. Respect.”</blockquote></figure>
+      <figure class="roast card reveal"><span class="r-tag">🍟 McDonald's · 3rd visit</span><blockquote>“THIRD time at McDonald's this week?! Are you collecting the toys?”</blockquote></figure>
+      <figure class="roast card hot reveal"><span class="r-tag">🔥 McDonald's · 4th visit</span><blockquote>“DAMN, FOR THE 4TH TIME THIS WEEK?! EAT SOMETHING HEALTHY FOR ONCE!”</blockquote></figure>
+      <figure class="roast card reveal"><span class="r-tag">📦 Amazon · 3rd order</span><blockquote>“3RD package! Your mailbox needs a vacation.”</blockquote></figure>
+      <figure class="roast card reveal"><span class="r-tag">🥦 Whole Foods · $142.10</span><blockquote>“$142.10 at Whole Foods. That had better be a LOT of vegetables.”</blockquote></figure>
+      <figure class="roast card reveal"><span class="r-tag">🛵 DoorDash · 2nd order</span><blockquote>“Second order this week. The delivery driver knows your dog's name.”</blockquote></figure>
     </div>
+    <p class="center fine">Example lines from the Pocket Nag library, not customer quotes.</p>
   </div>
 </section>
-
-<section id="personalities" class="section">
-  <div class="wrap">
-    <p class="eyebrow center">Personalities</p>
-    <h2 class="center">Pick how it talks to you.</h2>
-    <div class="personas" id="persona-cards"></div>
+<section class="section cine">
+  <div class="cine-media"><img src="assets/card-cafe.webp" loading="lazy" width="1024" height="576" alt="A hand tapping the Glass Card on a payment terminal at a café counter" class="parallax"></div>
+  <div class="wrap cine-copy reveal">
+    <span class="soon">✨ Coming soon</span>
+    <h2>The <span class="grad">Glass Card</span>.<br>It says its piece before you tap.</h2>
+    <p class="lead">Clear glass, a holographic edge and a little screen with a voice. Pick a saved card, it unlocks, you tap, and it locks itself again.</p>
+    <a class="btn" href="glass-card.html">Explore the Glass Card</a>
   </div>
 </section>
-
-<section class="section photo-band">
-  <div class="wrap band-grid">
-    <img src="assets/stock-coffee.jpg" alt="Two lattes on a wooden table surrounded by plants" loading="lazy">
-    <img src="assets/stock-shopping.jpg" alt="A woman in sunglasses carrying several shopping bags" loading="lazy">
-    <img src="assets/stock-checkout.jpg" alt="A customer paying at a café counter terminal" loading="lazy">
-  </div>
-  <p class="center sub wrap">Small purchases add up. You'll notice a voice. You'll ignore a chart.</p>
-</section>
-
-<section id="glass" class="section glass">
-  <div class="wrap glass-grid">
+<section class="section founder">
+  <div class="wrap founder-grid">
+    <div class="founder-art reveal" aria-hidden="true"><img src="assets/logo.webp" alt="" width="220" height="220" loading="lazy"></div>
     <div class="reveal">
-      <p class="eyebrow">Coming soon</p>
-      <h2>The <span class="grad">Glass Card</span>.</h2>
-      <p class="lead">A clear smart card with a touchscreen built in. It holds all your cards in one place, shows your balance, and tells you what it thinks before you tap.</p>
-      <ul class="ticks"><li>All your cards in one slim piece of glass</li><li>Touchscreen with live balance and budget</li><li>Built-in voice in your chosen personality</li><li>Tap to pay, wherever contactless works</li></ul>
-      <a href="#waitlist" class="btn">Get early access</a>
-      <p class="fine">Concept renders. The design is not final.</p>
-    </div>
-    <div class="glass-imgs reveal">
-      <img src="assets/glass-card-hero.jpg" class="g-main" alt="Concept render of a transparent glass card glowing with a balance display">
-      <img src="assets/glass-card-hand.jpg" class="g-a" alt="Concept render of a glass card held in a hand, showing stacked cards and a voice waveform" loading="lazy">
-      <img src="assets/glass-card-trio.jpg" class="g-b" alt="Concept render of three glass cards in violet, cyan and mint" loading="lazy">
+      <p class="eyebrow">Meet the founder</p>
+      <h2>Built by a mom who wanted money to talk back.</h2>
+      <p class="lead"><b data-founder>Roseann Mary Geiger</b> founded Pocket Nag on a simple belief: people don't need another spreadsheet. They need a funny, loving voice that speaks up right when they spend.</p>
+      <a class="link-arrow" href="about.html">Read Roseann's story →</a>
     </div>
   </div>
 </section>
-
-<section id="pricing" class="section">
-  <div class="wrap">
-    <p class="eyebrow center">Pricing</p>
-    <h2 class="center">Nagging is free. Premium nagging is $2.99.</h2>
-    <div class="plans">
-      <div class="card plan reveal"><h3>Free forever</h3><div class="price">$0</div>
-        <ul class="ticks"><li>Spoken comments from a big built-in library of funny lines, matched to the store and amount</li><li>Uses your phone's own voice</li><li>All personalities</li><li>Home-screen widget</li></ul>
-        <a href="#waitlist" class="btn btn-ghost">Join the waitlist</a></div>
-      <div class="card plan pro reveal"><span class="badge">Pro</span><h3><span data-brand>Pocket Nag</span> Pro</h3><div class="price">$2.99<small>/month</small></div>
-        <ul class="ticks"><li>AI that actually reads what you bought</li><li>Custom and premium voices</li><li>Weekly roast recap</li><li>Spending streaks</li></ul>
-        <a href="#waitlist" class="btn">Get Pro early</a></div>
-    </div>
-    <p class="center sub promise">🔒 No ads. Your data is never sold.</p>
-  </div>
-</section>
-
-<section id="faq" class="section">
-  <div class="wrap narrow">
-    <p class="eyebrow center">FAQ</p>
-    <h2 class="center">Good questions.</h2>
-    <details><summary>Do I have to connect my bank?</summary><p>No. It hears about purchases through your bank's own transaction alerts, so you never share a bank login or connect an account.</p></details>
-    <details><summary>How does it work on Android vs iPhone?</summary><p>On Android it reads your bank's purchase notifications. On iPhone, Apple Pay taps trigger it instantly, and other purchases come in through your bank's email alerts.</p></details>
-    <details><summary>What does it actually read?</summary><p>Only purchase alerts: merchant, amount and time. It doesn't read your messages, and your data is never sold. There are no ads.</p></details>
-    <details><summary>Is this a bank?</summary><p>No. <span data-brand>Pocket Nag</span> doesn't hold money, move money or issue cards. It works alongside the bank you already have.</p></details>
-    <details><summary>Can I make it stop talking?</summary><p>Yes. Choose “Off” for silent tracking, set quiet hours, or switch to text-only notifications.</p></details>
-    <details><summary>Does it work with Siri or other assistants?</summary><p>That's the plan. The voice can come from your phone's built-in speech or an assistant you already use.</p></details>
-    <details><summary>When is the Glass Card coming?</summary><p>It's an early concept. Join the waitlist to hear first.</p></details>
+<section class="section cta-band">
+  <div class="wrap narrow center reveal">
+    <h2>Ready to be lovingly nagged?</h2>
+    <p class="sub">Join the waitlist and hear first when Pocket Nag opens up.</p>
+    <form class="waitlist center-form" novalidate><label class="sr" for="c-email">Email address</label><input id="c-email" type="email" placeholder="you@example.com" autocomplete="email" required><button class="btn" type="submit">Join the waitlist</button></form>
+    <p class="wl-msg" role="status" aria-live="polite"></p>
   </div>
 </section>
 </main>
-
 <footer class="footer">
-  <div class="wrap foot-in">
-    <span>© 2026 <span data-brand>Pocket Nag</span>. Concept preview.</span>
-    <span>Not a bank. No ads. Your data is never sold. Photos: Unsplash. Glass Card images: concept renders.</span>
+  <div class="wrap foot-grid">
+    <div class="foot-brand"><a href="index.html" class="logo"><img src="assets/logo.webp" alt="" width="30" height="30" class="logo-img" loading="lazy"><span>Pocket Nag</span></a>
+      <p>Your wallet finally has something to say.</p>
+      <form class="waitlist waitlist-sm" novalidate><label class="sr" for="f-email">Email address</label><input id="f-email" type="email" placeholder="you@example.com" autocomplete="email" required><button class="btn btn-sm" type="submit">Join</button></form>
+      <p class="wl-msg" role="status" aria-live="polite"></p></div>
+    <nav aria-label="Product"><h4>Product</h4><a href="app.html">The App</a><a href="demo.html">Live demo</a><a href="glass-card.html">Glass Card</a><a href="pricing.html">Pricing</a></nav>
+    <nav aria-label="Company"><h4>Company</h4><a href="about.html">About</a><a href="press.html">Press kit</a></nav>
+    <nav aria-label="Help"><h4>Help</h4><a href="faq.html">FAQ</a><a href="support.html">Support</a><a href="prototype/SETUP_GUIDE.pdf">Setup guide (PDF)</a></nav>
+    <nav aria-label="Legal"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
   </div>
+  <div class="wrap foot-base"><span>© <span data-year>2026</span> Pocket Nag · Founded by <span data-founder>Roseann Mary Geiger</span></span><span>Not a bank. No ads. Your data is never sold.</span></div>
 </footer>
+<script src="site.js"></script>
 <script src="pn-lines.js"></script>
-<script src="pn-picker.js"></script>
-<script src="app.js"></script>
+<script src="epic.js"></script>
 </body>
 </html>

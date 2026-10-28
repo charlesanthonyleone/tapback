@@ -1,0 +1,85 @@
+<!--
+title: Live demo · Pocket Nag
+desc: Tap a pretend phone on a pretend terminal and hear Pocket Nag nag you, in five personalities.
+nav: demo
+scripts: pn-lines.js pn-picker.js personas.js demo.js
+-->
+
+<section class="page-hero slim">
+  <div class="wrap center reveal">
+    <p class="eyebrow">Interactive demo</p>
+    <h1>Go ahead. <span class="grad">Spend some pretend money.</span></h1>
+    <p class="lead narrow-lead">Pick a store, tap the phone on the terminal and hear what Pocket Nag thinks. Keep going back to the same place and watch it escalate. Turn your sound on 🔊</p>
+  </div>
+</section>
+<section class="section demo-section">
+  <div class="wrap play">
+    <div class="panel card" aria-label="Demo controls">
+      <h2 class="h3">1 · Where are you?</h2>
+      <div class="stores" role="group" aria-label="Choose a store"><button type="button" class="store" data-store="McDonald's" data-amt="11.38" data-ico="🍟" style="--c:#3d2a10"><span aria-hidden="true">🍟</span>McDonald's<small>$11.38</small></button><button type="button" class="store" data-store="Starbucks" data-amt="6.45" data-ico="☕" style="--c:#1f3d2e"><span aria-hidden="true">☕</span>Starbucks<small>$6.45</small></button><button type="button" class="store" data-store="Amazon" data-amt="89.99" data-ico="📦" style="--c:#3d2f14"><span aria-hidden="true">📦</span>Amazon<small>$89.99</small></button><button type="button" class="store" data-store="Whole Foods" data-amt="142.1" data-ico="🥦" style="--c:#173d22"><span aria-hidden="true">🥦</span>Whole Foods<small>$142.10</small></button><button type="button" class="store" data-store="Shell" data-amt="48.2" data-ico="⛽" style="--c:#3d3510"><span aria-hidden="true">⛽</span>Shell<small>$48.20</small></button><button type="button" class="store" data-store="Target" data-amt="23.17" data-ico="🎯" style="--c:#3d1420"><span aria-hidden="true">🎯</span>Target<small>$23.17</small></button><button type="button" class="store" data-store="Chick-fil-A" data-amt="14.85" data-ico="🐔" style="--c:#3d1a17"><span aria-hidden="true">🐔</span>Chick-fil-A<small>$14.85</small></button><button type="button" class="store" data-store="Walmart" data-amt="64.3" data-ico="🛒" style="--c:#14283d"><span aria-hidden="true">🛒</span>Walmart<small>$64.30</small></button></div>
+      <div class="row2">
+        <label>Or type any store<input id="store" type="text" value="McDonald's" autocomplete="off" maxlength="40"></label>
+        <label>Amount ($)<input id="amount" type="number" min="0.01" step="0.01" value="11.38" inputmode="decimal"></label>
+      </div>
+      <h2 class="h3">2 · Who's talking?</h2>
+      <div class="chips" id="personas" role="radiogroup" aria-label="Personality"></div>
+      <p class="fine" id="persona-desc"></p>
+      <h2 class="h3">3 · Voice</h2>
+      <div class="row2">
+        <label>Voice<select id="voice"><option value="">Default voice</option></select></label>
+        <div class="sound-row"><span id="sound-lbl">Sound</span><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="sound-lbl" id="sound"><span></span></button></div>
+      </div>
+      <div class="row2">
+        <label>Speed <output id="rate-out">1.0×</output><input id="rate" type="range" min="0.6" max="1.6" step="0.1" value="1"></label>
+        <label>Volume <output id="vol-out">100%</output><input id="vol" type="range" min="0" max="1" step="0.05" value="1"></label>
+      </div>
+      <div class="actions"><button type="button" class="btn" id="pay">📲 Tap to pay</button><button type="button" class="btn btn-ghost btn-sm" id="reset">↺ Reset week</button></div>
+    </div>
+    <div class="stage" aria-label="Simulation">
+      <div class="phone sim-phone" id="sim-phone">
+        <div class="screen">
+          <div class="island" aria-hidden="true"></div>
+          <div class="notif" id="notif" hidden><div class="n-ico" aria-hidden="true"><img src="assets/logo.webp" alt="" width="28" height="28"></div><div><div class="n-top"><b>POCKET NAG</b><span>now</span></div><b id="notif-title"></b><p id="notif-body"></p></div></div>
+          <div class="ls-time" id="ls-time">9:41</div>
+          <div class="visit-ring" aria-live="polite"><b id="visit-n">0</b><span id="visit-lbl">visits this week</span></div>
+          <div class="talk" id="talk"><p id="bubble" class="bubble">Tap to pay and I'll tell you what I think.</p><div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        </div>
+      </div>
+      <div class="terminal" id="terminal" aria-hidden="true">
+        <div class="t-screen"><span id="t-store">McDonald's</span><b id="t-amt">$11.38</b><em id="t-status">Tap phone</em></div>
+        <div class="nfc"><i></i><i></i><i></i><span>)))</span></div>
+        <div class="t-keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <p class="sr" id="sr-said" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow center">Your week</p>
+    <h2 class="center">The weekly spend dashboard.</h2>
+    <div class="dash">
+      <div class="card dash-total"><span class="fine">Spent this week</span><b id="d-week">$0.00</b><div class="bar"><i id="d-bar"></i></div><span class="fine"><span id="d-left">$250.00</span> left of a $250 demo budget</span></div>
+      <div class="card dash-chart"><span class="fine">By day</span><div class="chart" id="chart" role="img" aria-label="Spending by day of the week"></div></div>
+      <div class="card dash-top"><span class="fine">Most visited</span><ol id="top" class="top"><li class="empty">Nothing yet. Go tap!</li></ol></div>
+      <div class="homescreen dash-widget"><div class="widget"><div class="w-head"><img src="assets/logo.webp" alt="" width="20" height="20"> Pocket Nag</div><div class="w-amt" id="w-week">$0.00</div><div class="bar"><i id="w-bar"></i></div><p class="w-quote" id="w-quote">“Quiet week so far. Suspicious.”</p></div><span class="fine">Home-screen widget preview</span></div>
+    </div>
+    <ul class="feed card" id="feed" aria-label="Recent purchases"><li class="empty">Your purchases will show up here.</li></ul>
+  </div>
+</section>
+<section id="unlock" class="section glass">
+  <div class="wrap unlock-grid">
+    <div>
+      <span class="soon">✨ Coming soon</span>
+      <h2>One-Tap Unlock simulator.</h2>
+      <p class="lead">The Glass Card stays locked. Pick which saved card to use, it unlocks for a single tap, then locks itself again.</p>
+      <div class="saved" role="radiogroup" aria-label="Saved cards">
+        <button type="button" role="radio" aria-checked="false" data-card="Everyday" data-last="4021" style="--c:linear-gradient(135deg,#7b5cff,#3fe0c5)">Everyday <small>•• 4021</small></button>
+        <button type="button" role="radio" aria-checked="false" data-card="Travel" data-last="7730" style="--c:linear-gradient(135deg,#ff5fb7,#ffb35f)">Travel <small>•• 7730</small></button>
+        <button type="button" role="radio" aria-checked="false" data-card="Groceries" data-last="1188" style="--c:linear-gradient(135deg,#34c759,#0f8a6b)">Groceries <small>•• 1188</small></button>
+      </div>
+      <div class="actions"><button type="button" class="btn" id="u-tap" disabled>Tap card to pay</button><span class="fine" id="u-msg" role="status" aria-live="polite">Locked. Pick a card to unlock.</span></div>
+    </div>
+    <div class="ucard-stage"><div class="ucard locked" id="ucard"><div class="u-holo" aria-hidden="true"></div><div class="u-screen"><span class="u-lock" id="u-lock" aria-hidden="true">🔒</span><b id="u-name">Locked</b><small id="u-last">Choose a card</small><div class="u-ring" aria-hidden="true"><i id="u-ring"></i></div></div><span class="u-mark">Pocket Nag</span></div></div>
+  </div>
+</section>
