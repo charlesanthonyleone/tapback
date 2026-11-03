@@ -88,6 +88,12 @@
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
+  // TB-31: press T to tap (ignored while typing in a field)
+  addEventListener("keydown", e => {
+    if (e.key !== "t" && e.key !== "T" || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+    if (e.target.closest("input,select,textarea,[contenteditable]")) return;
+    const b = $("#pay"); if (b && !b.disabled) { e.preventDefault(); b.click(); }
+  });
   // TB-30: editable weekly budget (saved on this device)
   const bud = $("#budget");
   if (bud) {
