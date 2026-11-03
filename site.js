@@ -45,6 +45,6 @@ const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET
 })();
 
 // TB-1: offline support
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+if ('serviceWorker' in navigator && window.isSecureContext) {
   addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
