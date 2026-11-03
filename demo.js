@@ -88,6 +88,16 @@
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
+  // TB-37: undo the last pretend purchase (removes it from the visit log and the dashboard)
+  $("#undo").addEventListener("click", () => {
+    const b = data.buys.pop(); if (!b) { $("#io-msg").textContent = "Nothing to undo."; return; }
+    const i = data.log.map(e => e.t).lastIndexOf(b.t); const key = i >= 0 ? data.log[i].m : null; if (i >= 0) data.log.splice(i, 1);
+    save(); TV.stop();
+    const n = key ? data.log.filter(e => e.m === key).length : 0;
+    $("#visit-n").textContent = n; $("#visit-lbl").textContent = `${n === 1 ? "visit" : "visits"} to ${b.m} this week`;
+    $("#feed").innerHTML = '<li class="empty"></li>'; render();
+    $("#io-msg").textContent = `Undid ${b.m} (${fmt(b.a)}).`;
+  });
   // TB-34: save / load the demo week as a JSON file (stays on the device; validated on load)
   $("#export").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify({ app: "tapback-demo", v: 1, budget: CONFIG.WEEKLY_BUDGET, data }, null, 1)], { type: "application/json" });
