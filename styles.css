@@ -361,3 +361,10 @@ ol.mini li.chk input:checked+label{color:var(--mut);text-decoration:line-through
 .faq-search{margin:0 0 18px}.faq-search input{width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:#151827;color:var(--txt);font:inherit;font-size:16px}
 .faq-search input:focus{outline:2px solid var(--acc2);outline-offset:2px}
 main details{scroll-margin-top:90px}
+/* TB-38: Windows High Contrast / forced colors: keep gradient text, switches, bars and chips visible */
+@media (forced-colors:active){
+ .grad{background:none!important;color:CanvasText!important;-webkit-text-fill-color:CanvasText!important}
+ .btn,.store,.chips button,.switch,.os-pick button,.saved button{border:1px solid ButtonText!important}
+ .switch[aria-checked=true] span,.bar i,.w-bar span,.chart i{background:Highlight!important;forced-color-adjust:none}
+ [aria-checked=true],[aria-pressed=true]{outline:2px solid Highlight}
+}

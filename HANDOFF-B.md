@@ -37,3 +37,12 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-32: the demo has a T key shortcut for Tap to pay (ignored in fields). The `<kbd>` hint is hidden on touch screens.
 - SW is `tapback-v9`. QA (offline/overflow/axe) is clean after each step.
 - Ideas next: demo LCP (2.8s) is mostly styles.css render-blocking plus backdrop-filter cost. Could try critical CSS inline for the demo hero, export/import the demo week as JSON, and a reduced-transparency media query.
+
+## TB-33 to TB-38 (2026-11-02, ~21:45–22:10 ET)
+- TB-33: a page front-matter flag `inline_css: yes` makes build.py inline styles.css (comments stripped). It's used on demo only: Lighthouse demo 89→98, LCP 2.1s. Output is pixel-identical to the linked CSS. Other pages score 97–100.
+- TB-34: demo "Save week"/"Load week" (JSON `{app:"tapback-demo",v:1,budget,data}`). Loads are size-capped and field-validated, and names are escaped in render.
+- TB-35: `prefers-reduced-transparency` removes blur and uses solid surfaces.
+- TB-36: faq.js adds search (multi-word, live count, support fallback) and `#slug` deep links that open the question. The open question updates the hash. SW v11 caches faq.js.
+- TB-37: demo "Undo last tap".
+- TB-38: forced-colors (High Contrast) rules for gradient text, switches, bars and selected states.
+- Ideas next: pricing comparison toggle, print stylesheet for the app setup steps, a demo "share my week" link (encode buys in URL hash).
