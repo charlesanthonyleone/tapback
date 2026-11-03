@@ -53,3 +53,6 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-41: demo "🔗 Share my week". The URL hash is `#w=` base64url of JSON `[[store, cents, hoursAgo]]` (max 40 items), so it is never sent to a server. Recipients see an opt-in card ("Load it into my demo" / "No thanks") before their week is replaced. Input is strictly validated, and the hash is cleared afterwards. Web Share first, then clipboard, then prompt.
 - TB-42: demo controls are tidied. The main row is Tap / Undo / Reset. Share, Save and Load are in a "Share, save or load this week" disclosure.
 - SW is `tapback-v12` (pricing.js cached).
+
+- TB-43: 404 "Did you mean" (nf.js).
+- TB-44: support.html "Check my browser" diagnostic (support.js) + prefilled issue link; sw tapback-v14.
