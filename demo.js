@@ -120,3 +120,14 @@
     setTimeout(() => lock(`Paid with ${uSel ? uSel.dataset.card : "your card"} and locked again automatically. 🔒`), reduce ? 400 : 1600);
   });
 })();
+
+// TB-11: on narrow screens the phone mockup sits far below the controls; bring it into view after a tap.
+(() => {
+  const pay = document.getElementById("pay"), ph = document.getElementById("sim-phone");
+  if (!pay || !ph) return;
+  pay.addEventListener("click", () => {
+    if (!matchMedia("(max-width: 900px)").matches) return;
+    const r = ph.getBoundingClientRect();
+    if (r.top > innerHeight * 0.6 || r.bottom < 0) ph.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+  });
+})();
