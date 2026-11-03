@@ -59,6 +59,11 @@ for f in sorted(os.listdir(os.path.join(R,"src","pages"))):
     body = src[m.end():]
     scripts = "".join(f'<script src="{s}" defer></script>\n' for s in (["site.js"] + meta.get("scripts","").split()) if s)
     html = head(meta["title"], meta["desc"], f).replace("</head>", ldjson(f, body) + "</head>") + "\n" + header(meta.get("nav","")) + f'\n<main id="main">\n{body}</main>\n' + FOOT + "\n" + scripts + "</body>\n</html>\n"
+    # TB-33: pages with "inline_css: yes" inline the stylesheet (removes the render-blocking request)
+    if meta.get("inline_css") == "yes":
+        css = re.sub(r"/\*.*?\*/", "", open(os.path.join(R,"styles.css")).read(), flags=re.S)
+        css = re.sub(r"\s*\n\s*", "", css)
+        html = html.replace('<link rel="stylesheet" href="styles.css">', "<style>" + css + "</style>", 1)
     open(os.path.join(R,f),"w").write(html); print("built", f)
 # TB-12: sitemap + robots for search engines (404 excluded)
 pages = [f for f in sorted(os.listdir(os.path.join(R,"src","pages"))) if f != "404.html"]
