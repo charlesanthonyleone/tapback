@@ -28,3 +28,12 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 
 ## TB-27 check (2026-11-02 21:30 ET)
 - Re-ran qa/offline_mobile.py and qa/axe_audit.py: no errors on any page. The PDF serves 200, has 4 pages, Part 1 iPhone is on p1 and Part 2 Android is on p3, so the onboard.js `#page=` anchors are correct.
+
+## TB-28 to TB-32 (2026-11-02, ~21:30–21:50 ET)
+- TB-28 perf. Lighthouse mobile: Home 73→98, Demo 67→89, App 98. A11y/BP/SEO are all 100. Changes: build.py emits `defer` scripts. epic.js hero bob is now the CSS `.bob` (`translate`), and the tilt rAF loop sleeps once it catches the pointer. Particles start after load/idle and draw at ~30fps. `main>section~section{content-visibility:auto}`. `.soon`, `.sheen` and `.hs` loops are finite. page-in starts at opacity .35 so LCP isn't delayed.
+- TB-29: app.html setup steps are checkboxes (onboard.js), with progress saved in localStorage `tapback_steps_<os>`. When all steps are done it shows "All set" and links to the demo.
+- TB-30: the weekly budget on the demo dashboard is editable (`#budget`, localStorage `tapback_budget`, read into CONFIG in site.js). The recap verdict uses it.
+- TB-31: `card-*-960.webp` variants are in srcset (home/glass-card/press).
+- TB-32: the demo has a T key shortcut for Tap to pay (ignored in fields). The `<kbd>` hint is hidden on touch screens.
+- SW is `tapback-v9`. QA (offline/overflow/axe) is clean after each step.
+- Ideas next: demo LCP (2.8s) is mostly styles.css render-blocking plus backdrop-filter cost. Could try critical CSS inline for the demo hero, export/import the demo week as JSON, and a reduced-transparency media query.
