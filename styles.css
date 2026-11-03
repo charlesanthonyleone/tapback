@@ -320,3 +320,4 @@ a{color:#b9c2ff}
 h2.h3s{margin:12px 0 6px;font-size:20px;letter-spacing:-.02em}
 .neural-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;font-size:13px;color:var(--mut);margin:14px 0 4px}.neural-row .fine{margin:4px 0 0}.switch:disabled{opacity:.7;cursor:default}
 .persona{cursor:default}.persona .hear{align-self:flex-start;margin:4px 0}.persona .try{text-decoration:none}.persona .try:hover{text-decoration:underline}
+.shared-roast{margin:22px auto 0;max-width:560px;text-align:center;padding:18px 20px}.shared-roast .eyebrow{margin:0 0 6px}.shared-q{font-size:20px;font-weight:700;margin:0 0 6px}
