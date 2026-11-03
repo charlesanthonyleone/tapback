@@ -368,3 +368,13 @@ main details{scroll-margin-top:90px}
  .switch[aria-checked=true] span,.bar i,.w-bar span,.chart i{background:Highlight!important;forced-color-adjust:none}
  [aria-checked=true],[aria-pressed=true]{outline:2px solid Highlight}
 }
+/* TB-39: print: clean black-on-white pages (e.g. printing the setup steps), no chrome or effects */
+@media print{
+ *{background:none!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;backdrop-filter:none!important;animation:none!important}
+ .nav,.skip,footer,#particles,.sheen,.fab-pay,.stage,.os-pick,.faq-search,video{display:none!important}
+ .reveal{opacity:1!important;transform:none!important}main>section~section{content-visibility:visible}
+ .grad{-webkit-text-fill-color:#000!important}
+ a[href^="http"]::after{content:" (" attr(href) ")";font-size:85%}
+ .card{border:1px solid #999!important;break-inside:avoid}
+ details{display:block}details>*{display:block!important}
+}

@@ -45,4 +45,5 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-36: faq.js adds search (multi-word, live count, support fallback) and `#slug` deep links that open the question. The open question updates the hash. SW v11 caches faq.js.
 - TB-37: demo "Undo last tap".
 - TB-38: forced-colors (High Contrast) rules for gradient text, switches, bars and selected states.
-- Ideas next: pricing comparison toggle, print stylesheet for the app setup steps, a demo "share my week" link (encode buys in URL hash).
+- TB-39: print stylesheet (black on white, no nav/effects, cards unbroken, external URLs shown).
+- Ideas next: pricing comparison toggle, a demo "share my week" link (encode buys in URL hash).
