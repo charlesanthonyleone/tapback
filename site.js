@@ -15,7 +15,7 @@ const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET
     menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => set(false)));
   }
   // Nav shadow on scroll
-  const nav = $(".nav"); const onS = () => nav && nav.classList.toggle("scrolled", scrollY > 8); onS(); addEventListener("scroll", onS, { passive: true });
+  const nav = $(".nav"); const onS = () => nav && nav.classList.toggle("scrolled", scrollY > 8); requestAnimationFrame(onS); addEventListener("scroll", onS, { passive: true });
 
   // Reveal on scroll
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12, rootMargin: "0px 0px -40px 0px" });

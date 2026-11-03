@@ -20,3 +20,8 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-22: `onboard.js` adds the phone picker on app.html setup (auto-detects from the user agent, stored in localStorage `tapback_os`, arrow-key radios). Without JS, both cards show.
 - TB-23: recap.js "Share as image" draws a 1080x1350 PNG and uses Web Share files, falling back to a download. SW is `tapback-v5`.
 - Gotcha: sw.js uses single quotes in CORE.
+
+## TB-25 to TB-27 (2026-11-02)
+- TB-25: onboard.js points PDF guide links at `#page=1` (iPhone) / `#page=3` (Android) per picker choice. Re-check if the PDF is regenerated.
+- TB-26: Lighthouse App 98 / Demo 95, a11y/BP/SEO 100. Fixes: 64px `logo-64.webp` for small logos (nav, footer, demo notif/widget), app hero `sizes` fixed, nav scroll check runs in rAF (it was a forced reflow). SW is `tapback-v6`.
+- Remaining Lighthouse items are server-side (cache headers/compression on local http.server; GitHub Pages handles these) or render-blocking styles.css (39KB, not worth splitting).

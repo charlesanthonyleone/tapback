@@ -7,6 +7,10 @@
     cards.forEach(c => { c.hidden = os !== "all" && c.dataset.os !== os; });
     box.classList.toggle("single", os !== "all");
     try { localStorage.setItem("tapback_os", os); } catch (e) {}
+    // TB-25: PDF guide links open at the matching part (iPhone p.1, Android p.3).
+    document.querySelectorAll('a[href^="prototype/SETUP_GUIDE.pdf"]').forEach(a => {
+      a.href = "prototype/SETUP_GUIDE.pdf" + ({ ios: "#page=1", android: "#page=3" }[os] || "");
+    });
   };
   const ua = navigator.userAgent;
   const guess = /iPhone|iPad|iPod/.test(ua) ? "ios" : /Android/.test(ua) ? "android" : "all";
