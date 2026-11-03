@@ -14,7 +14,7 @@
     const by = {}; buys.forEach(b => { by[b.m] = by[b.m] || { n: 0, s: 0 }; by[b.m].n++; by[b.m].s += +b.a; });
     const [topName, top] = Object.entries(by).sort((a, b) => b[1].n - a[1].n || b[1].s - a[1].s)[0];
     const big = buys.reduce((m, b) => (+b.a > +m.a ? b : m));
-    const verdict = total > 250 ? "Over the demo budget. The budget would like a word." :
+    const verdict = total > CONFIG.WEEKLY_BUDGET ? "Over budget. The budget would like a word." :
       total > 150 ? "Cutting it close. Your wallet is sweating." :
       total > 50 ? "Respectable. Mostly. We saw that snack run." : "Barely spent a thing. Who are you?";
     const stats = document.createElement("ul"); stats.className = "recap-stats";

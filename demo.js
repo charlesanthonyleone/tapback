@@ -88,6 +88,17 @@
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
+  // TB-30: editable weekly budget (saved on this device)
+  const bud = $("#budget");
+  if (bud) {
+    bud.value = CONFIG.WEEKLY_BUDGET;
+    bud.addEventListener("change", () => {
+      const v = Math.round(+bud.value);
+      if (!(v >= 10 && v <= 100000)) { bud.value = CONFIG.WEEKLY_BUDGET; return; }
+      CONFIG.WEEKLY_BUDGET = v; try { localStorage.setItem("tapback_budget", v); } catch (e) {}
+      render();
+    });
+  }
   // Dashboard
   function render(quote, ico) {
     const week = data.buys.reduce((s, b) => s + b.a, 0), B = CONFIG.WEEKLY_BUDGET, pct = Math.min(100, week / B * 100);

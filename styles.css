@@ -345,3 +345,5 @@ ol.mini li.chk label{cursor:pointer}
 ol.mini li.chk input:checked+label{color:var(--mut);text-decoration:line-through}
 .step-prog{font-size:14px;font-weight:600;color:var(--acc2);margin:10px 0 0}
 .all-done{outline:2px solid var(--acc2);outline-offset:-2px}
+/* TB-30: inline budget field */
+.budget-lbl input{width:5.5em;padding:2px 6px;margin-left:1px;border-radius:8px;border:1px solid var(--line);background:#151827;color:var(--txt);font:inherit;font-weight:700}

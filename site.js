@@ -1,5 +1,6 @@
 // Tapback: shared site behaviour (config, nav, reveals, waitlist, page transitions)
 const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET: 250 };
+try { const b = +localStorage.getItem("tapback_budget"); if (b >= 10) CONFIG.WEEKLY_BUDGET = b; } catch (e) {}
 (() => {
   const $ = s => document.querySelector(s);
   document.querySelectorAll("[data-founder]").forEach(el => (el.textContent = CONFIG.FOUNDER));

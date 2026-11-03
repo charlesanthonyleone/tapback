@@ -61,7 +61,7 @@ scripts: pn-lines.js pn-picker.js personas.js tb-voice.js demo.js share.js recap
     <p class="eyebrow center">Your week</p>
     <h2 class="center">The weekly spend dashboard.</h2>
     <div class="dash">
-      <div class="card dash-total"><span class="fine">Spent this week</span><b id="d-week">$0.00</b><div class="bar"><i id="d-bar"></i></div><span class="fine"><span id="d-left">$250.00</span> left of a $250 demo budget</span></div>
+      <div class="card dash-total"><span class="fine">Spent this week</span><b id="d-week">$0.00</b><div class="bar"><i id="d-bar"></i></div><span class="fine"><span id="d-left">$250.00</span> left of a <label class="budget-lbl">$<input id="budget" type="number" min="10" max="100000" step="10" value="250" inputmode="numeric" aria-label="Weekly budget in dollars"></label> weekly budget</span></div>
       <div class="card dash-chart"><span class="fine">By day</span><div class="chart" id="chart" role="img" aria-label="Spending by day of the week"></div></div>
       <div class="card dash-top"><span class="fine">Most visited</span><ol id="top" class="top"><li class="empty">Nothing yet. Go tap!</li></ol></div>
       <div class="homescreen dash-widget"><div class="widget"><div class="w-head"><img src="assets/logo-64.webp" alt="" width="20" height="20"> Tapback</div><div class="w-amt" id="w-week">$0.00</div><div class="bar"><i id="w-bar"></i></div><p class="w-quote" id="w-quote">“Quiet week so far. Suspicious.”</p></div><span class="fine">Home-screen widget preview</span></div>
