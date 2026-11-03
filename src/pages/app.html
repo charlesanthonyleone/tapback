@@ -2,7 +2,7 @@
 title: The App · Tapback
 desc: How Tapback works on iPhone and Android, the escalation ladder, and the five personalities.
 nav: app
-scripts: tb-voice.js personas.js
+scripts: tb-voice.js personas.js onboard.js
 -->
 
 <section class="page-hero">
@@ -25,7 +25,7 @@ scripts: tb-voice.js personas.js
       <li class="card reveal"><span class="num">2</span><h3>Your bank's alert tells it</h3><p>Your bank already sends an alert for every purchase. That alert is all it sees. You never connect your bank or share a login.</p></li>
       <li class="card reveal"><span class="num">3</span><h3>It nags (nicely)</h3><p>One short line about what you bought, in the personality you picked.</p></li>
     </ol>
-    <div class="platforms">
+        <div class="platforms">
       <div class="card reveal"><h3>🤖 Android</h3><p>It reads the purchase notifications your bank app already shows you.</p></div>
       <div class="card reveal"><h3>🍎 iPhone</h3><p>Apple Pay taps trigger it instantly. Other purchases come in through your bank's email alerts.</p></div>
     </div>
@@ -58,9 +58,10 @@ scripts: tb-voice.js personas.js
   <div class="wrap">
     <p class="eyebrow center">Set it up today</p>
     <h2 class="center">Working prototype on your own phone.</h2>
+    <div class="os-pick" role="radiogroup" aria-label="Which phone do you have?" hidden><span class="fine">Which phone do you have?</span><button type="button" role="radio" data-os="ios" aria-checked="false">🍎 iPhone</button><button type="button" role="radio" data-os="android" aria-checked="false">🤖 Android</button><button type="button" role="radio" data-os="all" aria-checked="true">Show both</button></div>
     <div class="platforms">
-      <div class="card reveal"><h3>🍎 iPhone</h3><ol class="mini"><li>Build one Shortcut that picks a line and speaks it.</li><li>Add a Wallet automation so every Apple Pay tap runs it.</li><li>Optional: let bank email alerts trigger it for other purchases.</li></ol><p class="fine">About 20 minutes with the guide.</p></div>
-      <div class="card reveal"><h3>🤖 Android</h3><ol class="mini"><li>Install an automation app (MacroDroid).</li><li>Import the Tapback script.</li><li>Point it at your bank app's notifications.</li></ol><p class="fine">About 15 minutes with the guide.</p></div>
+      <div class="card reveal" data-os="ios"><h3>🍎 iPhone</h3><ol class="mini"><li>Build one Shortcut that picks a line and speaks it.</li><li>Add a Wallet automation so every Apple Pay tap runs it.</li><li>Optional: let bank email alerts trigger it for other purchases.</li></ol><p class="fine">About 20 minutes with the guide.</p></div>
+      <div class="card reveal" data-os="android"><h3>🤖 Android</h3><ol class="mini"><li>Install an automation app (MacroDroid).</li><li>Import the Tapback script.</li><li>Point it at your bank app's notifications.</li></ol><p class="fine">About 15 minutes with the guide.</p></div>
     </div>
     <p class="center"><a class="btn" href="prototype/SETUP_GUIDE.pdf">Download the step-by-step setup guide (PDF)</a></p>
   </div>
