@@ -167,7 +167,7 @@ details p{color:var(--mut);margin:0 0 16px}
 @keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}@keyframes vt-in{from{opacity:0;transform:translateY(10px)}}
 body{animation:page-in .45s cubic-bezier(.2,.8,.2,1) both;transition:opacity .2s,transform .2s}
 body.leaving{opacity:0;transform:translateY(-6px)}
-@keyframes page-in{from{opacity:0;transform:translateY(8px)}}
+@keyframes page-in{from{opacity:.35;transform:translateY(6px)}}
 a{color:#b9c2ff}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--txt);font-weight:800;letter-spacing:-.02em;font-size:18px}.logo-img{border-radius:8px}
 .nav{transition:background .3s,box-shadow .3s}.nav.scrolled{box-shadow:0 10px 30px -12px rgba(0,0,0,.6)}
@@ -328,3 +328,13 @@ h2.h3s{margin:12px 0 6px;font-size:20px;letter-spacing:-.02em}
 .btn:disabled{opacity:.6;cursor:progress;transform:none;box-shadow:none}
 .fab-pay{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:max(16px,env(safe-area-inset-bottom));font-family:inherit;z-index:40;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .fab-pay[hidden]{display:none}
+/* TB-28: idle float for the hero card, composited (was a JS rAF loop) */
+@keyframes tb-bob{0%,100%{translate:0 -3px}50%{translate:0 3px}}
+.bob{animation:tb-bob 7.8s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.bob{animation:none}}
+/* TB-28: paint-heavy decorative loops run a few times then rest (Lighthouse main-thread) */
+.soon{animation-iteration-count:2}.soon:hover{animation-iteration-count:infinite}
+.sheen{animation-iteration-count:3}
+.hs{animation-iteration-count:4}
+/* TB-28: skip rendering off-screen sections until they near the viewport */
+main>section~section{content-visibility:auto;contain-intrinsic-size:auto 900px}

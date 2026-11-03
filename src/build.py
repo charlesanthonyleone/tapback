@@ -57,7 +57,7 @@ for f in sorted(os.listdir(os.path.join(R,"src","pages"))):
     src = open(os.path.join(R,"src","pages",f)).read()
     m = re.match(r"<!--(.*?)-->\n", src, re.S); meta = dict((x.strip() for x in l.split(":",1)) for l in m.group(1).strip().splitlines())
     body = src[m.end():]
-    scripts = "".join(f'<script src="{s}"></script>\n' for s in (["site.js"] + meta.get("scripts","").split()) if s)
+    scripts = "".join(f'<script src="{s}" defer></script>\n' for s in (["site.js"] + meta.get("scripts","").split()) if s)
     html = head(meta["title"], meta["desc"], f).replace("</head>", ldjson(f, body) + "</head>") + "\n" + header(meta.get("nav","")) + f'\n<main id="main">\n{body}</main>\n' + FOOT + "\n" + scripts + "</body>\n</html>\n"
     open(os.path.join(R,f),"w").write(html); print("built", f)
 # TB-12: sitemap + robots for search engines (404 excluded)
