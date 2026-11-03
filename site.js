@@ -29,7 +29,7 @@ const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET
     if (!inp.value || !inp.checkValidity()) { msg.className = "wl-msg err"; msg.textContent = "Please enter a valid email."; inp.focus(); return; }
     const list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!list.includes(inp.value)) list.push(inp.value);
     localStorage.setItem(KEY, JSON.stringify(list));
-    msg.className = "wl-msg ok"; msg.textContent = f.dataset.thanks || "You're on the list! We'll be in touch."; inp.value = "";
+    msg.className = "wl-msg ok"; msg.textContent = (f.dataset.thanks || "Thanks! Saved on this device.") + " Preview only: the waitlist isn't connected yet, so your email hasn't been sent anywhere."; inp.value = "";
   }));
 
   // Page transitions (fallback for browsers without cross-document View Transitions)

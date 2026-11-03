@@ -3,6 +3,7 @@
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const P = window.PERSONAS, LIB = window.TapbackLines, PN = window.Tapback, synth = window.speechSynthesis;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const fmt = n => "$" + n.toFixed(2);
   const KEY = "tapback_visits";
   const st = { persona: new URLSearchParams(location.search).get("persona") || "sassy", rate: 1, vol: 1, sound: true, voice: "", busy: false };
@@ -30,19 +31,22 @@
   $("#voice").onchange = e => (st.voice = e.target.value);
   $("#rate").oninput = e => { st.rate = +e.target.value; $("#rate-out").textContent = st.rate.toFixed(1) + "×"; };
   $("#vol").oninput = e => { st.vol = +e.target.value; $("#vol-out").textContent = Math.round(st.vol * 100) + "%"; };
-  $("#sound").onclick = e => { st.sound = !st.sound; e.currentTarget.setAttribute("aria-checked", st.sound); if (!st.sound && synth) synth.cancel(); };
+  $("#sound").onclick = e => { st.sound = !st.sound; e.currentTarget.setAttribute("aria-checked", st.sound); if (!st.sound) TV.stop(); };
 
   // Talk bubble + wave
   const talk = (text, on) => { $("#bubble").textContent = text; $("#talk").classList.add("show"); $("#talk").classList.toggle("speaking", !!on); };
+  const TV = window.TapbackVoice;
   function speak(text) {
     $("#sr-said").textContent = text;
-    if (!synth || !st.sound || st.persona === "off" || st.vol === 0) { talk(text, false); return; }
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.rate = st.rate; u.volume = st.vol; u.pitch = P[st.persona].pitch || 1;
-    const v = synth.getVoices().find(v => v.name === st.voice); if (v) u.voice = v;
-    u.onstart = () => talk(text, true); u.onend = u.onerror = () => talk(text, false);
-    talk(text, true); synth.speak(u);
+    if (!st.sound || st.persona === "off" || st.vol === 0) { talk(text, false); return; }
+    talk(text, true);
+    TV.speak(st.persona, text, { rate: st.rate, volume: st.vol, pitch: P[st.persona].pitch, systemVoice: st.voice, onstart: () => talk(text, true), onend: () => talk(text, false) });
   }
+  // Optional in-browser neural voice for custom stores
+  const nb = $("#neural"), nn = $("#neural-note"), NOTE = nn.textContent;
+  nb.onclick = () => { if (nb.getAttribute("aria-checked") === "true") return; nb.setAttribute("aria-checked", "true"); TV.enableNeural(); };
+  TV.onNeural(s => { nn.textContent = s === "loading" ? "Downloading the natural voice model (about 90 MB, once)…" : s === "ready" ? "Natural voice ready. Any store you type now gets a natural voice." : s === "error" ? "Couldn't load the natural voice in this browser, so custom stores use your device's best voice." : NOTE;
+    if (s === "error") nb.setAttribute("aria-checked", "false"); nb.disabled = s === "loading" || s === "ready"; });
 
   // Line choice
   const CAT = { coffee: "coffee", online: "shopping", big_box: "shopping", groceries: "groceries", fast_food: "delivery", bars: "delivery", gas: "shopping", generic: "shopping" };
@@ -52,9 +56,10 @@
     const r = PN.pick(LIB, store, amt, count);
     if (p.library) return { text: r.text, cat: r.category };
     const pool = p.lines[CAT[r.category] || "shopping"], l = pool[Math.floor(Math.random() * pool.length)];
-    const ord = PN.ordinal(count).toLowerCase();
-    return { text: l.split("{m}").join(PN.displayName(LIB, store)).split("{a}").join(fmt(amt)).split("{n}").join(ord), cat: r.category };
+    const ord = String(count);
+    return { text: l.split("{m}").join(PN.displayName(LIB, store)).split("{a}").join(fmt(amt)).split("{n}").join(ord).split("{pct}").join(Math.round((weekTotal() + amt) / CONFIG.WEEKLY_BUDGET * 100)).split("{week}").join(fmt(weekTotal() + amt)), cat: r.category };
   }
+  const weekTotal = () => data.buys.reduce((s, b) => s + b.a, 0);
   const ICON = { coffee: "☕", online: "📦", big_box: "🛒", groceries: "🥦", fast_food: "🍟", bars: "🍸", gas: "⛽", generic: "💳" };
 
   // Pay!
@@ -79,7 +84,7 @@
       setTimeout(() => { ph.classList.remove("tapping"); term.classList.remove("ok"); $("#t-status").textContent = "Tap phone"; st.busy = false; $("#pay").disabled = false; }, reduce ? 300 : 1200);
     }, reduce ? 50 : 900);
   });
-  $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); if (synth) synth.cancel(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
+  $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
   // Dashboard
   function render(quote, ico) {
@@ -93,12 +98,12 @@
     $("#chart").innerHTML = days.map((d, i) => `<div class="col${i === today ? " today" : ""}"><i style="height:${Math.max(3, tot[i] / mx * 100)}%" title="${d}: ${fmt(tot[i])}"></i><span>${d}</span></div>`).join("");
     const cnt = {}; data.buys.forEach(b => (cnt[b.m] = (cnt[b.m] || 0) + 1));
     const top = Object.entries(cnt).sort((a, b) => b[1] - a[1]).slice(0, 4);
-    $("#top").innerHTML = top.length ? top.map(([m, c]) => `<li><span>${m}</span><b>${c}×</b></li>`).join("") : '<li class="empty">Nothing yet. Go tap!</li>';
+    $("#top").innerHTML = top.length ? top.map(([m, c]) => `<li><span>${esc(m)}</span><b>${c}×</b></li>`).join("") : '<li class="empty">Nothing yet. Go tap!</li>';
     const feed = $("#feed");
     if (!data.buys.length) { feed.innerHTML = '<li class="empty">Your purchases will show up here.</li>'; return; }
     if (quote) { feed.querySelector(".empty") && (feed.innerHTML = ""); const b = data.buys[data.buys.length - 1], li = document.createElement("li");
-      li.innerHTML = `<span class="m-ico" aria-hidden="true">${ico || "💳"}</span><span class="m-name">${b.m}<small>${quote}</small></span><strong>−${fmt(b.a)}</strong>`; feed.prepend(li); while (feed.children.length > 6) feed.lastChild.remove(); }
-    else if (feed.querySelector(".empty")) { feed.innerHTML = data.buys.slice(-6).reverse().map(b => `<li><span class="m-ico" aria-hidden="true">${ICON[b.c] || "💳"}</span><span class="m-name">${b.m}<small>${new Date(b.t).toLocaleDateString(undefined, { weekday: "short" })}</small></span><strong>−${fmt(b.a)}</strong></li>`).join(""); }
+      li.innerHTML = `<span class="m-ico" aria-hidden="true">${ico || "💳"}</span><span class="m-name">${esc(b.m)}<small>${esc(quote)}</small></span><strong>−${fmt(b.a)}</strong>`; feed.prepend(li); while (feed.children.length > 6) feed.lastChild.remove(); }
+    else if (feed.querySelector(".empty")) { feed.innerHTML = data.buys.slice(-6).reverse().map(b => `<li><span class="m-ico" aria-hidden="true">${ICON[b.c] || "💳"}</span><span class="m-name">${esc(b.m)}<small>${new Date(b.t).toLocaleDateString(undefined, { weekday: "short" })}</small></span><strong>−${fmt(b.a)}</strong></li>`).join(""); }
   }
   render();
   const clock = () => ($("#ls-time").textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }).replace(/\s?[AP]M/i, "")); clock(); setInterval(clock, 30000);

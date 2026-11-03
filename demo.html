@@ -45,13 +45,14 @@
       <p class="fine" id="persona-desc"></p>
       <h2 class="h3">3 · Voice</h2>
       <div class="row2">
-        <label>Voice<select id="voice"><option value="">Default voice</option></select></label>
+        <label>Backup voice<select id="voice"><option value="">Best available</option></select></label>
         <div class="sound-row"><span id="sound-lbl">Sound</span><button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="sound-lbl" id="sound"><span></span></button></div>
       </div>
       <div class="row2">
         <label>Speed <output id="rate-out">1.0×</output><input id="rate" type="range" min="0.6" max="1.6" step="0.1" value="1"></label>
         <label>Volume <output id="vol-out">100%</output><input id="vol" type="range" min="0" max="1" step="0.05" value="1"></label>
       </div>
+      <div class="neural-row"><div><span id="neural-lbl">Natural voice for any store</span><p class="fine" id="neural-note">Preset stores already use natural voices. Turn this on to generate one for any store you type, right in your browser (a one-time download of about 90 MB).</p></div><button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="neural-lbl" aria-describedby="neural-note" id="neural"><span></span></button></div>
       <div class="actions"><button type="button" class="btn" id="pay">📲 Tap to pay</button><button type="button" class="btn btn-ghost btn-sm" id="reset">↺ Reset week</button></div>
     </div>
     <div class="stage" aria-label="Simulation">
@@ -120,6 +121,7 @@
 <script src="pn-lines.js"></script>
 <script src="pn-picker.js"></script>
 <script src="personas.js"></script>
+<script src="tb-voice.js"></script>
 <script src="demo.js"></script>
 </body>
 </html>

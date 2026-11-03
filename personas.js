@@ -32,8 +32,14 @@ window.PERSONAS = {
   const box = document.getElementById("persona-cards"); if (!box) return;
   Object.entries(PERSONAS).forEach(([k, p]) => {
     const sample = p.library ? "THIRD time at McDonald's this week?! Are you collecting the toys?" : p.lines ? p.lines.coffee[0].replace("{m}", "Starbucks").replace("{a}", "$6.45").replace("{n}", "three") : "Logged silently.";
-    const c = document.createElement("a"); c.href = "demo.html?persona=" + k; c.className = "card persona reveal";
-    c.innerHTML = `<div class="emoji" aria-hidden="true">${p.emoji}</div><h3>${p.label}</h3><p>${p.desc}</p><q>${sample}</q><span class="try">Try in the demo →</span>`;
+    const c = document.createElement("div"); c.className = "card persona reveal";
+    const canHear = p.lines && window.TapbackVoice;
+    c.innerHTML = `<div class="emoji" aria-hidden="true">${p.emoji}</div><h3>${p.label}</h3><p>${p.desc}</p><q>${sample}</q>` +
+      (canHear ? `<button type="button" class="btn btn-ghost btn-sm hear" aria-label="Hear ${p.label}">▶ Hear it</button>` : "") +
+      `<a class="try" href="demo.html?persona=${k}">Try ${p.label} in the demo →</a>`;
+    if (canHear) { const hb = c.querySelector(".hear");
+      hb.onclick = () => { document.querySelectorAll(".hear").forEach(x => (x.textContent = "▶ Hear it"));
+        hb.textContent = "🔊 Playing…"; window.TapbackVoice.speak(k, sample, { onend: () => (hb.textContent = "▶ Hear it") }); }; }
     box.appendChild(c);
   });
 })();
