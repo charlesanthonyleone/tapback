@@ -17,7 +17,7 @@ def head(title, desc, page):
 <meta property="og:type" content="website"><meta property="og:site_name" content="Tapback"><meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{URL}assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:url" content="{URL}{'' if page=='index.html' else page}"><meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{URL}{'' if page=='index.html' else page}"><meta property="og:url" content="{URL}{'' if page=='index.html' else page}"><meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="styles.css">
 </head>'''
 def header(active):
@@ -51,3 +51,7 @@ for f in sorted(os.listdir(os.path.join(R,"src","pages"))):
     scripts = "".join(f'<script src="{s}"></script>\n' for s in (["site.js"] + meta.get("scripts","").split()) if s)
     html = head(meta["title"], meta["desc"], f) + "\n" + header(meta.get("nav","")) + f'\n<main id="main">\n{body}</main>\n' + FOOT + "\n" + scripts + "</body>\n</html>\n"
     open(os.path.join(R,f),"w").write(html); print("built", f)
+# TB-12: sitemap + robots for search engines (404 excluded)
+pages = [f for f in sorted(os.listdir(os.path.join(R,"src","pages"))) if f != "404.html"]
+open(os.path.join(R,"sitemap.xml"),"w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{URL}{'' if p=='index.html' else p}</loc></url>\n" for p in pages) + "</urlset>\n")
+open(os.path.join(R,"robots.txt"),"w").write(f"User-agent: *\nAllow: /\nSitemap: {URL}sitemap.xml\n")
