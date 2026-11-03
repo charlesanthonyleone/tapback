@@ -88,6 +88,26 @@
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
+  // TB-34: save / load the demo week as a JSON file (stays on the device; validated on load)
+  $("#export").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify({ app: "tapback-demo", v: 1, budget: CONFIG.WEEKLY_BUDGET, data }, null, 1)], { type: "application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `tapback-week-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    $("#io-msg").textContent = "Saved your demo week as a file.";
+  });
+  $("#import").addEventListener("change", async e => {
+    const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+    const bad = () => ($("#io-msg").textContent = "That file isn't a Tapback demo week.");
+    if (f.size > 200000) return bad();
+    let j; try { j = JSON.parse(await f.text()); } catch (x) { return bad(); }
+    const d = j && j.app === "tapback-demo" && j.data;
+    if (!d || !Array.isArray(d.log) || !Array.isArray(d.buys)) return bad();
+    const buys = d.buys.filter(b => b && typeof b.m === "string" && b.m.length <= 60 && typeof b.a === "number" && b.a >= 0 && b.a < 1e6 && typeof b.t === "number").slice(-500)
+      .map(b => ({ m: b.m, a: b.a, t: b.t, c: /^[a-z]{1,20}$/.test(b.c) ? b.c : undefined }));
+    data = { log: d.log.filter(x => x && typeof x === "object").slice(-500), buys }; save();
+    if (j.budget >= 10 && j.budget <= 100000) { CONFIG.WEEKLY_BUDGET = Math.round(j.budget); try { localStorage.setItem("tapback_budget", CONFIG.WEEKLY_BUDGET); } catch (x) {} if ($("#budget")) $("#budget").value = CONFIG.WEEKLY_BUDGET; }
+    $("#feed").innerHTML = '<li class="empty"></li>'; render(); $("#io-msg").textContent = `Loaded ${buys.length} purchase${buys.length === 1 ? "" : "s"}.`;
+  });
   // TB-31: press T to tap (ignored while typing in a field)
   addEventListener("keydown", e => {
     if (e.key !== "t" && e.key !== "T" || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;

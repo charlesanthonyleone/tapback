@@ -349,3 +349,11 @@ ol.mini li.chk input:checked+label{color:var(--mut);text-decoration:line-through
 .budget-lbl input{width:5.5em;padding:2px 6px;margin-left:1px;border-radius:8px;border:1px solid var(--line);background:#151827;color:var(--txt);font:inherit;font-weight:700}
 .kbd{font:600 11px/1 ui-monospace,monospace;padding:3px 6px;margin-left:6px;border-radius:6px;border:1px solid rgba(255,255,255,.35);opacity:.8}
 @media (hover:none){.kbd{display:none}}
+/* TB-34: file picker styled as a button; focus ring follows the hidden input */
+.file-btn{cursor:pointer}.file-btn:focus-within{outline:2px solid var(--acc2);outline-offset:2px}
+/* TB-35: reduced transparency: solid surfaces instead of blur/glass */
+@media (prefers-reduced-transparency:reduce){
+ *,*::before,*::after{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .nav,.notif,.float-note,.talk .bubble,.widget,.lockbadge{background:#161a28!important}
+ .sheen{display:none}
+}
