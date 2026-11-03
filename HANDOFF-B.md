@@ -25,3 +25,6 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-25: onboard.js points PDF guide links at `#page=1` (iPhone) / `#page=3` (Android) per picker choice. Re-check if the PDF is regenerated.
 - TB-26: Lighthouse App 98 / Demo 95, a11y/BP/SEO 100. Fixes: 64px `logo-64.webp` for small logos (nav, footer, demo notif/widget), app hero `sizes` fixed, nav scroll check runs in rAF (it was a forced reflow). SW is `tapback-v6`.
 - Remaining Lighthouse items are server-side (cache headers/compression on local http.server; GitHub Pages handles these) or render-blocking styles.css (39KB, not worth splitting).
+
+## TB-27 check (2026-11-02 21:30 ET)
+- Re-ran qa/offline_mobile.py and qa/axe_audit.py: no errors on any page. The PDF serves 200, has 4 pages, Part 1 iPhone is on p1 and Part 2 Android is on p3, so the onboard.js `#page=` anchors are correct.
