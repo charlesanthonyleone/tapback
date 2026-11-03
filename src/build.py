@@ -17,7 +17,7 @@ def head(title, desc, page):
 <meta property="og:type" content="website"><meta property="og:site_name" content="Tapback"><meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="{URL}assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<link rel="canonical" href="{URL}{'' if page=='index.html' else page}"><meta property="og:url" content="{URL}{'' if page=='index.html' else page}"><meta name="twitter:card" content="summary_large_image">
+{'<meta name="robots" content="noindex">' if page=='404.html' else f'<link rel="canonical" href="{URL}{"" if page=="index.html" else page}">'}<meta property="og:url" content="{URL}{'' if page=='index.html' else page}"><meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="styles.css">
 </head>'''
 def header(active):
