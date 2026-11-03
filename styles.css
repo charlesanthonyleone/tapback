@@ -166,7 +166,7 @@ details p{color:var(--mut);margin:0 0 16px}
 .gallery figcaption{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;font-size:13px}
 .founder{background:linear-gradient(160deg,rgba(255,95,183,.1),rgba(160,107,255,.08))}
 .founder-grid{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center}
-.founder-art img{border-radius:48px;box-shadow:0 30px 80px -30px rgba(255,95,183,.8);animation:bob 6s ease-in-out infinite}
+.founder-art img{max-width:100%;height:auto;border-radius:48px;box-shadow:0 30px 80px -30px rgba(255,95,183,.8);animation:bob 6s ease-in-out infinite}
 .sig{font-family:Georgia,serif;font-style:italic;font-size:22px;color:#e8d7ff}
 @media (max-width:900px){.stat-row{grid-template-columns:repeat(3,1fr)}.roasts{grid-template-columns:1fr 1fr}.glass .glass-grid,.founder-grid{grid-template-columns:1fr}.founder-art{max-width:180px}.gallery{grid-template-columns:1fr 1fr}.gallery figure:nth-child(4){grid-row:auto}}
 @media (max-width:560px){.stat-row{grid-template-columns:1fr 1fr}.roasts,.gallery{grid-template-columns:1fr}.gallery .g-wide{grid-column:auto}.float-note{left:0;right:0;bottom:-30px;max-width:none}.hero-visual{min-height:300px;margin-bottom:30px}}
