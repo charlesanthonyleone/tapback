@@ -43,3 +43,8 @@ const CONFIG = { BRAND: "Tapback", FOUNDER: "Roseann Mary Geiger", WEEKLY_BUDGET
     addEventListener("pageshow", () => document.body.classList.remove("leaving"));
   }
 })();
+
+// TB-1: offline support
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
