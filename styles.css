@@ -206,7 +206,7 @@ a{color:#b9c2ff}
 /* footer */
 .footer{padding:64px 0 28px;background:linear-gradient(180deg,transparent,rgba(160,107,255,.06))}
 .foot-grid{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:32px}
-.foot-grid nav{display:flex;flex-direction:column;gap:10px}.foot-grid h4{margin:0 0 6px;color:var(--txt);font-size:14px}
+.foot-grid nav{display:flex;flex-direction:column;gap:10px}.foot-grid .foot-h{margin:0 0 6px;color:var(--txt);font-size:14px}
 .foot-grid nav a{color:#8c94ab;text-decoration:none}.foot-grid nav a:hover{color:var(--txt)}
 .foot-brand p{margin:12px 0 0}.waitlist-sm{margin-top:16px;max-width:340px}.waitlist-sm input{font-size:15px}
 .foot-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line)}
