@@ -1,5 +1,5 @@
 // Tapback offline support: network-first for pages, cache-first for assets.
-const CACHE = 'tapback-v3';
+const CACHE = 'tapback-v4';
 const CORE = ['./', 'index.html', 'app.html', 'demo.html', 'faq.html', '404.html', 'styles.css', 'site.js', 'favicon.ico', 'manifest.webmanifest', 'assets/icon-192.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -9,7 +9,7 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   const r = e.request;
-  if (r.method !== 'GET' || new URL(r.url).origin !== location.origin) return;
+  if (r.method !== 'GET' || r.headers.has('range') || new URL(r.url).origin !== location.origin) return;
   if (r.mode === 'navigate') {
     e.respondWith(fetch(r).then(res => { const c = res.clone(); caches.open(CACHE).then(k => k.put(r, c)); return res; })
       .catch(() => caches.match(r).then(m => m || caches.match('404.html'))));
