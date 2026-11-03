@@ -378,3 +378,8 @@ main details{scroll-margin-top:90px}
  .card{border:1px solid #999!important;break-inside:avoid}
  details{display:block}details>*{display:block!important}
 }
+/* TB-40: segmented toggle */
+.seg{display:flex;width:max-content;max-width:100%;margin:0 auto 16px;padding:4px;border-radius:999px;background:#151827;border:1px solid var(--line)}
+.seg button{border:0;background:none;color:var(--mut);font:inherit;font-weight:600;font-size:14px;padding:8px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-checked=true]{background:linear-gradient(90deg,var(--acc2),var(--acc));color:#06070b}
+.seg button:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
