@@ -390,4 +390,5 @@ main details{scroll-margin-top:90px}
 .week-tools .actions{margin-top:8px}
 /* TB-44: support browser check */
 .diag{margin-bottom:18px}.diag-list{list-style:none;padding:0;margin:12px 0}.diag-list li{display:flex;gap:10px;padding:6px 0;font-size:14px}
+.diag-act{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0}.diag-sum{font-size:15px}
 .diag-list small{display:block;color:var(--mut);font-weight:400}
