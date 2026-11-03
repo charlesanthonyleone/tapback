@@ -4,6 +4,15 @@ import os, re
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL = "https://charlesanthonyleone.github.io/tapback/"
 NAV = [("index.html","Home","home"),("app.html","The App","app"),("demo.html","Demo","demo"),("glass-card.html","Glass Card","glass"),("pricing.html","Pricing","pricing"),("about.html","About","about")]
+import json, html as _h
+def _txt(x): return _h.unescape(re.sub(r"<[^>]+>", "", x)).strip()
+def ldjson(page, body):
+    """Structured data: WebSite on the home page, FAQPage wherever there are <details> Q&As."""
+    out = []
+    if page == "index.html": out.append({"@context":"https://schema.org","@type":"WebSite","name":"Tapback","url":URL})
+    qa = re.findall(r"<details[^>]*>\s*<summary>(.*?)</summary>\s*<p>(.*?)</p>", body, re.S)
+    if qa: out.append({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":_txt(q),"acceptedAnswer":{"@type":"Answer","text":_txt(a)}} for q,a in qa]})
+    return "".join(f'<script type="application/ld+json">{json.dumps(o, ensure_ascii=False)}</script>\n' for o in out)
 def head(title, desc, page):
     return f'''<!doctype html>
 <html lang="en">
@@ -49,7 +58,7 @@ for f in sorted(os.listdir(os.path.join(R,"src","pages"))):
     m = re.match(r"<!--(.*?)-->\n", src, re.S); meta = dict((x.strip() for x in l.split(":",1)) for l in m.group(1).strip().splitlines())
     body = src[m.end():]
     scripts = "".join(f'<script src="{s}"></script>\n' for s in (["site.js"] + meta.get("scripts","").split()) if s)
-    html = head(meta["title"], meta["desc"], f) + "\n" + header(meta.get("nav","")) + f'\n<main id="main">\n{body}</main>\n' + FOOT + "\n" + scripts + "</body>\n</html>\n"
+    html = head(meta["title"], meta["desc"], f).replace("</head>", ldjson(f, body) + "</head>") + "\n" + header(meta.get("nav","")) + f'\n<main id="main">\n{body}</main>\n' + FOOT + "\n" + scripts + "</body>\n</html>\n"
     open(os.path.join(R,f),"w").write(html); print("built", f)
 # TB-12: sitemap + robots for search engines (404 excluded)
 pages = [f for f in sorted(os.listdir(os.path.join(R,"src","pages"))) if f != "404.html"]

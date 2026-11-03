@@ -19,7 +19,15 @@
   }
   function hash(s) { var h = 0x811c9dc5; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return ("0000000" + h.toString(16)).slice(-8); }
   function key(persona, text) { return hash(persona + "|" + speechText(text)); }
-  var api = { VOICES: VOICES, speechText: speechText, hash: hash, key: key, num: num, ordWord: ordWord };
+  // Running-total lines are spoken as pre-rendered segments: "<store>: <amount>." + tail pieces
+  function moneyParts(v) { var c = Math.round(v * 100), d = Math.floor(c / 100), ct = c % 100, out = [];
+    if (d >= 1000) return null; var h = Math.floor(d / 100), r = d % 100;
+    if (h) out.push(num(h) + " hundred"); out.push((r || !h ? num(r) + " " : "") + (d === 1 ? "dollar" : "dollars")); if (ct) out.push("and " + num(ct) + (ct === 1 ? " cent." : " cents.")); else out[out.length - 1] += ".";
+    return out; }
+  function totalParts(prefix, kind, value) {
+    if (kind === "pct") return value >= 0 && value <= 300 ? [prefix, "You have used " + num(value) + " percent of your weekly budget."] : null;
+    var m = moneyParts(value); return m ? [prefix, "Weekly total is now"].concat(m) : null; }
+  var api = { VOICES: VOICES, moneyParts: moneyParts, totalParts: totalParts, speechText: speechText, hash: hash, key: key, num: num, ordWord: ordWord };
   if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
 
   // ---------- Browser engine ----------
@@ -70,6 +78,18 @@
       worker.postMessage({ type: "speak", id: id, text: speechText(text), voice: v.id, speed: v.speed }); return; }
     system(text, opts, my);
   }
-  root.TapbackVoice = { VOICES: VOICES, speechText: speechText, key: key, speak: speak, stop: stop, enableNeural: enableNeural,
+  function has(k) { return manifest && manifest.clips && manifest.clips.indexOf(k) >= 0; }
+  function speakParts(persona, parts, text, opts) {
+    opts = opts || {}; var keys = parts && parts.map(function (p) { return key(persona, p); });
+    if (!keys || !keys.every(has)) return speak(persona, text, opts);
+    stop(); var my = seq, i = 0, started = false;
+    var o = { volume: opts.volume, rate: opts.rate, onstart: function (m) { if (!started) { started = true; opts.onstart && opts.onstart(m); } },
+      onend: function () { if (my !== seq) return; if (++i < keys.length) next(); else opts.onend && opts.onend(); } };
+    // warm the cache so segments join without gaps
+    keys.forEach(function (k) { var a = new Audio(); a.preload = "auto"; a.src = "assets/voice/" + k + ".mp3"; });
+    function next() { var p = playUrl("assets/voice/" + keys[i] + ".mp3", o, my); if (p && p.catch) p.catch(function () { if (my === seq) system(text, opts, my); }); }
+    next();
+  }
+  root.TapbackVoice = { speakParts: speakParts, totalParts: totalParts, VOICES: VOICES, speechText: speechText, key: key, speak: speak, stop: stop, enableNeural: enableNeural,
     neuralState: function () { return neural; }, onNeural: function (f) { listeners.push(f); }, bestSystemVoice: bestSystemVoice };
 })(typeof window !== "undefined" ? window : this);

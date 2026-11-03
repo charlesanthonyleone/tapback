@@ -15,6 +15,12 @@ for (const [store, amt] of STORES) {
   for (const p of ["coach", "strict", "grandma"]) for (const l of P[p].lines[CAT[cat]]) { if (/\{(pct|week)\}/.test(l)) continue;
     for (const n of (l.includes("{n}") ? [1, 2, 3, 4, 5, 6] : [1])) add(p, l.split("{m}").join(name).split("{a}").join(fmt(amt)).split("{n}").join(String(n))); }
 }
+for (const [store, amt] of STORES) add("strict", `${PN.displayName(LIB, store)}: ${fmt(amt)}.`);
+for (let n = 0; n <= 300; n++) add("strict", `You have used ${V.num(n)} percent of your weekly budget.`);
+add("strict", "Weekly total is now");
+for (let h = 1; h <= 9; h++) add("strict", V.num(h) + " hundred");
+for (let r = 0; r <= 99; r++) { add("strict", `${V.num(r)} dollars`); add("strict", `${V.num(r)} dollars.`); if (r) add("strict", `and ${V.num(r)} ${r === 1 ? "cent" : "cents"}.`); }
+add("strict", "one dollar"); add("strict", "one dollar."); add("strict", "dollars.");
 for (const [p, x] of Object.entries(P)) if (x.lines) add(p, x.library ? "THIRD time at McDonald's this week?! Are you collecting the toys?" : x.lines.coffee[0].replace("{m}", "Starbucks").replace("{a}", "$6.45").replace("{n}", "three"));
 for (const p of Object.keys(V.VOICES)) add(p, "Fresh week. Clean slate. Don't make me regret it.");
 const all = [...jobs.keys()].sort(), [shard, shards] = [+(process.argv[2] || 0), +(process.argv[3] || 1)];

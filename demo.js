@@ -26,7 +26,7 @@
   $("#amount").addEventListener("input", syncTerm); setStore("McDonald's", "11.38");
 
   // Voice controls
-  const loadVoices = () => { const vs = synth.getVoices().filter(v => /^en/i.test(v.lang)); $("#voice").innerHTML = '<option value="">Default voice</option>' + vs.map(v => `<option>${v.name}</option>`).join(""); $("#voice").value = st.voice; };
+  const loadVoices = () => { const vs = synth.getVoices().filter(v => /^en/i.test(v.lang)); $("#voice").innerHTML = '<option value="">Best available</option>' + vs.map(v => `<option>${v.name}</option>`).join(""); $("#voice").value = st.voice; };
   if (synth) { loadVoices(); synth.addEventListener ? synth.addEventListener("voiceschanged", loadVoices) : (synth.onvoiceschanged = loadVoices); }
   $("#voice").onchange = e => (st.voice = e.target.value);
   $("#rate").oninput = e => { st.rate = +e.target.value; $("#rate-out").textContent = st.rate.toFixed(1) + "×"; };
@@ -36,11 +36,11 @@
   // Talk bubble + wave
   const talk = (text, on) => { $("#bubble").textContent = text; $("#talk").classList.add("show"); $("#talk").classList.toggle("speaking", !!on); };
   const TV = window.TapbackVoice;
-  function speak(text) {
+  function speak(text, parts) {
     $("#sr-said").textContent = text;
     if (!st.sound || st.persona === "off" || st.vol === 0) { talk(text, false); return; }
     talk(text, true);
-    TV.speak(st.persona, text, { rate: st.rate, volume: st.vol, pitch: P[st.persona].pitch, systemVoice: st.voice, onstart: () => talk(text, true), onend: () => talk(text, false) });
+    TV.speakParts(st.persona, parts, text, { rate: st.rate, volume: st.vol, pitch: P[st.persona].pitch, systemVoice: st.voice, onstart: () => talk(text, true), onend: () => talk(text, false) });
   }
   // Optional in-browser neural voice for custom stores
   const nb = $("#neural"), nn = $("#neural-note"), NOTE = nn.textContent;
@@ -56,8 +56,10 @@
     const r = PN.pick(LIB, store, amt, count);
     if (p.library) return { text: r.text, cat: r.category };
     const pool = p.lines[CAT[r.category] || "shopping"], l = pool[Math.floor(Math.random() * pool.length)];
-    const ord = String(count);
-    return { text: l.split("{m}").join(PN.displayName(LIB, store)).split("{a}").join(fmt(amt)).split("{n}").join(ord).split("{pct}").join(Math.round((weekTotal() + amt) / CONFIG.WEEKLY_BUDGET * 100)).split("{week}").join(fmt(weekTotal() + amt)), cat: r.category };
+    const ord = String(count), name = PN.displayName(LIB, store), wk = weekTotal() + amt, pct = Math.round(wk / CONFIG.WEEKLY_BUDGET * 100);
+    const kind = l.includes("{pct}") ? "pct" : l.includes("{week}") ? "week" : null;
+    const parts = kind && window.TapbackVoice.totalParts(`${name}: ${fmt(amt)}.`, kind, kind === "pct" ? pct : wk);
+    return { text: l.split("{m}").join(PN.displayName(LIB, store)).split("{a}").join(fmt(amt)).split("{n}").join(ord).split("{pct}").join(Math.round((weekTotal() + amt) / CONFIG.WEEKLY_BUDGET * 100)).split("{week}").join(fmt(weekTotal() + amt)), cat: r.category, parts };
   }
   const weekTotal = () => data.buys.reduce((s, b) => s + b.a, 0);
   const ICON = { coffee: "☕", online: "📦", big_box: "🛒", groceries: "🥦", fast_food: "🍟", bars: "🍸", gas: "⛽", generic: "💳" };
@@ -67,21 +69,21 @@
   $("#pay").addEventListener("click", () => {
     if (st.busy) return;
     const store = ($("#store").value || "").trim() || "Corner Store", amt = Math.max(0.01, +$("#amount").value || 0);
-    st.busy = true; $("#pay").disabled = true; syncTerm();
+    st.busy = true; $("#pay").disabled = true; if ($("#pay-again")) $("#pay-again").disabled = true; syncTerm();
     const ph = $("#sim-phone"), term = $("#terminal");
     ph.classList.add("tapping"); term.classList.add("reading"); $("#t-status").textContent = "Reading…";
     setTimeout(() => {
       term.classList.remove("reading"); term.classList.add("ok"); $("#t-status").textContent = "Approved ✓";
       const now = Date.now(), rv = PN.recordVisit(data.log, store, now, LIB); data.log = rv.log;
-      const { text, cat } = line(store, amt, rv.count);
+      const { text, cat, parts } = line(store, amt, rv.count);
       data.buys.push({ m: PN.displayName(LIB, store), a: amt, t: now, c: cat }); data.buys = data.buys.filter(b => now - b.t < 7 * 864e5); save();
       $("#visit-n").textContent = rv.count; $("#visit-lbl").textContent = `${rv.count === 1 ? "visit" : "visits"} to ${PN.displayName(LIB, store)} this week`;
       $(".visit-ring").classList.toggle("hot", rv.count >= 4); $(".visit-ring").classList.remove("pop"); void $(".visit-ring").offsetWidth; $(".visit-ring").classList.add("pop");
       const n = $("#notif"); clearTimeout(nt); n.hidden = true; n.classList.remove("out"); void n.offsetWidth;
       $("#notif-title").textContent = `${PN.displayName(LIB, store)} · ${fmt(amt)}`; $("#notif-body").textContent = text; n.hidden = false;
       nt = setTimeout(() => { n.classList.add("out"); setTimeout(() => (n.hidden = true), 400); }, 6000);
-      speak(text); render(text, ICON[cat]);
-      setTimeout(() => { ph.classList.remove("tapping"); term.classList.remove("ok"); $("#t-status").textContent = "Tap phone"; st.busy = false; $("#pay").disabled = false; }, reduce ? 300 : 1200);
+      speak(text, parts); render(text, ICON[cat]);
+      setTimeout(() => { ph.classList.remove("tapping"); term.classList.remove("ok"); $("#t-status").textContent = "Tap phone"; st.busy = false; $("#pay").disabled = false; if ($("#pay-again")) $("#pay-again").disabled = false; }, reduce ? 300 : 1200);
     }, reduce ? 50 : 900);
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
@@ -135,4 +137,14 @@
     const r = ph.getBoundingClientRect();
     if (r.top > innerHeight * 0.6 || r.bottom < 0) ph.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
   });
+  // Mobile: floating "Tap again" once the controls have scrolled away, so you can keep tapping while watching the phone
+  const $ = (s) => document.querySelector(s);
+  const pa = $("#pay-again"), mq = matchMedia("(max-width: 900px)");
+  if (pa && "IntersectionObserver" in window) {
+    document.documentElement.appendChild(pa); // body keeps a page-in transform; escape it so position:fixed is viewport-relative
+    let payVis = true, stageVis = false; const upd = () => (pa.hidden = !(mq.matches && !payVis && stageVis));
+    new IntersectionObserver(([e]) => { payVis = e.intersectionRatio > .6; upd(); }, { threshold: [0, .6, 1] }).observe($("#pay"));
+    new IntersectionObserver(([e]) => { stageVis = e.isIntersecting; upd(); }, { threshold: .1 }).observe($("#sim-phone"));
+    pa.addEventListener("click", () => $("#pay").click()); mq.addEventListener && mq.addEventListener("change", upd);
+  }
 })();
