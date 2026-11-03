@@ -56,3 +56,10 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 
 - TB-43: 404 "Did you mean" (nf.js).
 - TB-44: support.html "Check my browser" diagnostic (support.js) + prefilled issue link; sw tapback-v14.
+
+## TB-44 recheck + TB-45 to TB-47 (2026-11-02, ~22:00–22:20 ET)
+- Support page (b484d39) recheck: Lighthouse mobile scores Perf/A11y/BP/SEO all 100. axe is clean on all pages. The diagnostic runs with no JS errors. The flagged items left are server-side or styles.css (known).
+- TB-45: support check now shows a summary line ("N things to check" / "All good") and a "Copy details" button (clipboard first, then a prompt fallback). The issue link says it opens in a new tab. SW `tapback-v15`.
+- TB-46: press.html images have intrinsic width/height (read from the files) to stop layout shift. Rendered sizes are unchanged (verified at 390/1280).
+- TB-47: build.py head() adds og:image:alt and twitter:image:alt.
+- Ideas next: theme toggle? (site is dark-only by design), an "Escape closes" check on disclosures, a Lighthouse sweep of faq/pricing after TB-36/40.
