@@ -388,3 +388,6 @@ main details{scroll-margin-top:90px}
 /* TB-42: secondary demo tools tucked into a disclosure */
 .week-tools{margin-top:10px}.week-tools summary{cursor:pointer;font-size:14px;color:var(--mut);padding:6px 0}.week-tools summary:hover{color:var(--txt)}
 .week-tools .actions{margin-top:8px}
+/* TB-44: support browser check */
+.diag{margin-bottom:18px}.diag-list{list-style:none;padding:0;margin:12px 0}.diag-list li{display:flex;gap:10px;padding:6px 0;font-size:14px}
+.diag-list small{display:block;color:var(--mut);font-weight:400}
