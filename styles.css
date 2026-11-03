@@ -338,3 +338,10 @@ h2.h3s{margin:12px 0 6px;font-size:20px;letter-spacing:-.02em}
 .hs{animation-iteration-count:4}
 /* TB-28: skip rendering off-screen sections until they near the viewport */
 main>section~section{content-visibility:auto;contain-intrinsic-size:auto 900px}
+/* TB-29: setup checklist */
+ol.mini li.chk{list-style:none;display:flex;gap:10px;align-items:flex-start;margin-left:-1.2em}
+ol.mini li.chk input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--acc);flex:none;cursor:pointer}
+ol.mini li.chk label{cursor:pointer}
+ol.mini li.chk input:checked+label{color:var(--mut);text-decoration:line-through}
+.step-prog{font-size:14px;font-weight:600;color:var(--acc2);margin:10px 0 0}
+.all-done{outline:2px solid var(--acc2);outline-offset:-2px}

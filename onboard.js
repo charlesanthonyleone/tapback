@@ -22,3 +22,29 @@
     if (!d) return; e.preventDefault(); const n = btns[(i + d + btns.length) % btns.length]; set(n.dataset.os); n.focus();
   });
 })();
+
+// TB-29: setup checklist. Each step becomes a checkbox; progress is saved per phone.
+(() => {
+  document.querySelectorAll("[data-os] ol.mini").forEach(ol => {
+    const os = ol.closest("[data-os]").dataset.os, key = "tapback_steps_" + os, items = [...ol.children];
+    let done = []; try { done = JSON.parse(localStorage.getItem(key) || "[]"); } catch (e) {}
+    const prog = document.createElement("p"); prog.className = "step-prog"; prog.setAttribute("aria-live", "polite");
+    const upd = () => {
+      const n = items.filter(li => li.querySelector("input").checked).length;
+      prog.innerHTML = n === items.length ? 'All set! 🎉 <a href="demo.html">Try a pretend tap in the demo</a>.' : `${n} of ${items.length} steps done`;
+      ol.closest("[data-os]").classList.toggle("all-done", n === items.length);
+    };
+    items.forEach((li, i) => {
+      const id = `st-${os}-${i}`, cb = document.createElement("input");
+      cb.type = "checkbox"; cb.id = id; cb.checked = done.includes(i);
+      const lab = document.createElement("label"); lab.htmlFor = id; lab.append(...li.childNodes);
+      li.append(cb, lab); li.classList.add("chk");
+      cb.addEventListener("change", () => {
+        done = items.map((x, j) => x.querySelector("input").checked ? j : -1).filter(j => j >= 0);
+        try { localStorage.setItem(key, JSON.stringify(done)); } catch (e) {}
+        upd();
+      });
+    });
+    ol.after(prog); upd();
+  });
+})();
