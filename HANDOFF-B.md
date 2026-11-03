@@ -47,3 +47,9 @@ Worktree: `/workspace/tb-b` (detached; `git pull --rebase origin main`, push `gi
 - TB-38: forced-colors (High Contrast) rules for gradient text, switches, bars and selected states.
 - TB-39: print stylesheet (black on white, no nav/effects, cards unbroken, external URLs shown).
 - Ideas next: pricing comparison toggle, a demo "share my week" link (encode buys in URL hash).
+
+## TB-40 to TB-42 (2026-11-02, ~21:55–22:15 ET)
+- TB-40: pricing.js adds a segmented toggle over the compare table: All features, or "Only what Pro adds" (rows where the Free and Pro cells differ). Radio keyboard nav, live count. Selected text is dark (#06070b) for contrast.
+- TB-41: demo "🔗 Share my week". The URL hash is `#w=` base64url of JSON `[[store, cents, hoursAgo]]` (max 40 items), so it is never sent to a server. Recipients see an opt-in card ("Load it into my demo" / "No thanks") before their week is replaced. Input is strictly validated, and the hash is cleared afterwards. Web Share first, then clipboard, then prompt.
+- TB-42: demo controls are tidied. The main row is Tap / Undo / Reset. Share, Save and Load are in a "Share, save or load this week" disclosure.
+- SW is `tapback-v12` (pricing.js cached).

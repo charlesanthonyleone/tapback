@@ -385,3 +385,6 @@ main details{scroll-margin-top:90px}
 .seg button:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
 /* TB-41: incoming shared week */
 .week-in{margin-top:12px;padding:14px 16px;border:1px solid var(--acc2)}.week-in p{margin:0 0 10px;font-size:14px}.week-in .btn{margin:0 8px 0 0}
+/* TB-42: secondary demo tools tucked into a disclosure */
+.week-tools{margin-top:10px}.week-tools summary{cursor:pointer;font-size:14px;color:var(--mut);padding:6px 0}.week-tools summary:hover{color:var(--txt)}
+.week-tools .actions{margin-top:8px}
