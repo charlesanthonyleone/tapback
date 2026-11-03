@@ -88,6 +88,43 @@
   });
   $("#reset").addEventListener("click", () => { data = { log: [], buys: [] }; save(); TV.stop(); $("#visit-n").textContent = "0"; $("#visit-lbl").textContent = "visits this week"; $(".visit-ring").classList.remove("hot"); talk("Fresh week. Clean slate. Don't make me regret it.", false); render(); });
 
+  // TB-41: share my week as a link. The week is packed into the URL hash (#w=...), so it never hits a server.
+  // Format: [[store, cents, hoursAgo], ...] -> JSON -> base64url. Recipients must opt in before it replaces their week.
+  const b64u = str => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const unb64u = str => decodeURIComponent(escape(atob(str.replace(/-/g, "+").replace(/_/g, "/"))));
+  $("#share-week").addEventListener("click", async () => {
+    if (!data.buys.length) { $("#io-msg").textContent = "Tap a few times first, then share your week."; return; }
+    const now = Date.now(), packed = data.buys.slice(-40).map(b => [b.m.slice(0, 40), Math.round(b.a * 100), Math.max(0, Math.round((now - b.t) / 36e5))]);
+    const url = location.origin + location.pathname + "#w=" + b64u(JSON.stringify(packed));
+    const total = fmt(data.buys.reduce((s, b) => s + b.a, 0));
+    try {
+      if (navigator.share) { await navigator.share({ title: "My Tapback week", text: `My pretend week: ${total}. Roast it.`, url }); $("#io-msg").textContent = "Shared."; return; }
+    } catch (e) { if (e.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(url); $("#io-msg").textContent = "Link copied. It has your demo purchases in it, nothing else."; }
+    catch (e) { prompt("Copy this link:", url); }
+  });
+  const incoming = (() => {
+    const m = location.hash.match(/^#w=([A-Za-z0-9_-]{1,8000})$/); if (!m) return null;
+    try { const a = JSON.parse(unb64u(m[1])); if (!Array.isArray(a)) return null;
+      const now = Date.now();
+      return a.slice(0, 40).filter(x => Array.isArray(x) && typeof x[0] === "string" && x[0].trim() && Number.isInteger(x[1]) && x[1] > 0 && x[1] < 1e7 && Number.isInteger(x[2]) && x[2] >= 0 && x[2] < 168)
+        .map(x => ({ m: x[0].slice(0, 40), a: x[1] / 100, t: now - x[2] * 36e5 })).sort((p, q) => p.t - q.t);
+    } catch (e) { return null; }
+  })();
+  if (incoming && incoming.length) {
+    const tot = incoming.reduce((s, b) => s + b.a, 0);
+    $("#week-in-txt").textContent = `Someone shared their demo week with you: ${incoming.length} purchase${incoming.length === 1 ? "" : "s"}, ${fmt(tot)} total. Want to see it on the dashboard? It replaces your current demo week.`;
+    $("#week-in").hidden = false;
+    const clear = () => { $("#week-in").hidden = true; history.replaceState(null, "", location.pathname + location.search); };
+    $("#week-in-no").addEventListener("click", clear);
+    $("#week-in-yes").addEventListener("click", () => {
+      let log = [];
+      incoming.forEach(b => { b.c = PN.categorize(LIB, b.m); log = PN.recordVisit(log, b.m, b.t, LIB).log; log[log.length - 1].t = b.t; });
+      data = { log, buys: incoming.map(b => ({ m: b.m, a: b.a, t: b.t, c: typeof b.c === "string" ? b.c : undefined })) }; save();
+      $("#feed").innerHTML = '<li class="empty"></li>'; render(); clear();
+      $("#io-msg").textContent = "Loaded their week. Scroll down to see the dashboard.";
+    });
+  }
   // TB-37: undo the last pretend purchase (removes it from the visit log and the dashboard)
   $("#undo").addEventListener("click", () => {
     const b = data.buys.pop(); if (!b) { $("#io-msg").textContent = "Nothing to undo."; return; }
